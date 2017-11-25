@@ -1,0 +1,3 @@
+rootProject.name = 'MorseProject'
+
+include ':app'
