@@ -14,12 +14,23 @@ const styles = StyleSheet.create({
       justifyContent: 'space-between',
       marginBottom: 10
     },
+    title: {
+      marginBottom:10, 
+      fontWeight:"bold",
+      fontSize:15
+    },
+    slider: {
+      width:150
+    }
 });
 
 class Encode extends Component {
   render() {
     return (
         <View style={styles.container}>
+          <View>
+            <Text style={styles.title}>Please toggle an option</Text>
+          </View>
           <View style={styles.optionContainer}>
             <Text>Use Flashlight</Text>
             <Switch value={false} />
@@ -34,8 +45,9 @@ class Encode extends Component {
           </View>
           <View style={styles.optionContainer}>
             <Text>Speed(WPM)</Text>
-            <Slider  minimumValue={-1}
-          maximumValue={10}  />
+            <Slider style={styles.slider} step={1} 
+                minimumValue={1}
+                maximumValue={100}  />
           </View>
           <View>
             <TextInput multiline={true} placeholder="Please enter some text"></TextInput>
