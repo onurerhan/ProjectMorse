@@ -22,11 +22,11 @@ class Encode extends Component {
         <View style={styles.container}>
           <View style={styles.optionContainer}>
             <Text>Use Flashlight</Text>
-            <Switch value={true} />
+            <Switch value={false} />
           </View>
           <View style={styles.optionContainer}>
             <Text>Use Sound</Text>
-            <Switch value={true} />
+            <Switch value={false} />
           </View>
           <View style={styles.optionContainer}>
             <Text>Use Vibration</Text>
