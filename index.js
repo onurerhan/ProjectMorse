@@ -11,17 +11,17 @@ import SettingsScreen from './app/screens/Settings';
 import { colors } from './app/config/styles';
 
 const Tabs = TabNavigator({
+    EncodeScreen: {
+      screen: EncodeScreen,
+      navigationOptions: {
+        tabBarLabel: 'Encode',
+      },
+    },
     DecodeScreen: {
       screen: DecodeScreen,
       navigationOptions: {
         tabBarLabel: 'Decode',
       },
-    },
-    EncodeScreen: {
-        screen: EncodeScreen,
-        navigationOptions: {
-          tabBarLabel: 'Encode',
-        },
     },
     LearnScreen: {
         screen: LearnScreen,

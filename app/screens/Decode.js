@@ -1,13 +1,14 @@
 import React, {Component} from 'react';
-import { StyleSheet, Text, View, StatusBar  } from 'react-native';
+import { StyleSheet, Text, View, StatusBar,TextInput  } from 'react-native';
 import { colors } from '../config/styles';
 import Button from '../components/Button';
 
 const styles = StyleSheet.create({
     container: {
       flex: 1,
-      justifyContent: 'center',
-      alignItems: 'center',
+      //justifyContent: 'center',
+      //alignItems: 'center',
+      padding: 10,
       backgroundColor: colors.background,
     },
     main: {
@@ -17,6 +18,9 @@ const styles = StyleSheet.create({
       fontWeight: '400',
       fontStyle: 'italic',
     },
+    decode: {
+      flexDirection:"row"
+    }
 });
 
 class Decode extends Component {
@@ -26,9 +30,15 @@ class Decode extends Component {
         <StatusBar 
           backgroundColor={colors.statusBar}
           barStyle="light-content" />
-          <Text style={styles.main}>
-            Decode
-          </Text>
+
+        <View style={styles.decode}>
+          <TextInput placeholder="Text here" style={{width:100}}>
+
+          </TextInput>
+          <Button text="Decode" />
+        </View>
+
+
       </View>
     );
   }
