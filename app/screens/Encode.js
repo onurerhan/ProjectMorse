@@ -2,6 +2,7 @@ import React, {Component} from 'react';
 import { StyleSheet, Text, View, Switch, Slider, TextInput } from 'react-native';
 import { colors } from '../config/styles';
 import Button from '../components/Button';
+import '../to_morse.js'
 
 const styles = StyleSheet.create({
     container: {
@@ -51,6 +52,9 @@ class Encode extends Component {
           </View>
           <View>
             <TextInput multiline={true} placeholder="Please enter some text"></TextInput>
+          </View>
+          <View>
+            <Text></Text>
           </View>
         </View>
       );
