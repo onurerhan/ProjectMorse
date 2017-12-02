@@ -49,19 +49,19 @@ const morse = {
     "_":"..--.-"
   }
 
-  function to_morse(user_input){
-      var result = "";
-      var counter = 0;
-      for(counter = 0; counter < user_input.length; counter++){
-          result += morse.user_input.toUpperCase();
-      }
-      return result;
-  }
+function to_morse(user_input){
+    var result = "";
+    var counter = 0;
+    for(counter = 0; counter < user_input.length; counter++){
+        result += morse.user_input.toUpperCase();
+    }
+    return result;
+}
 
-  function to_audio(user_input){
+function to_audio(user_input){
 
-  }
+}
 
-  function to_light(user_input){
+function to_light(user_input){
 
-  }
+}
