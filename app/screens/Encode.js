@@ -2,7 +2,6 @@ import React, {Component} from 'react';
 import { StyleSheet, Text, View, Switch, Slider, TextInput } from 'react-native';
 import { colors } from '../config/styles';
 import Button from '../components/Button';
-import '../to_morse.js'
 
 const styles = StyleSheet.create({
     container: {
@@ -59,13 +58,13 @@ class Encode extends Component {
           </View>
           <View>
             <Text>
-              {this.state.text.split('').map((word) => this.toMorse(word.toUpperCase())).join('  ')}
+              {this.state.text.split('').map((character) => this.toMorse(character.toUpperCase())).join('  ')}
             </Text>
           </View>
         </View>
       );
   }
-  toMorse(word_input){
+  toMorse(char_input){
     var morse = {
       " ":" / ",
       "'":".----.",
@@ -116,7 +115,7 @@ class Encode extends Component {
       "Z":"--..",
       "_":"..--.-"
     }
-    return (morse[word_input]);
+    return (morse[char_input]);
   }
 }
 
