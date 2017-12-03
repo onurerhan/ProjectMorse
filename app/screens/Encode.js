@@ -26,6 +26,10 @@ const styles = StyleSheet.create({
 });
 
 class Encode extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {text: ''};
+  }
   render() {
     return (
         <View style={styles.container}>
@@ -51,13 +55,68 @@ class Encode extends Component {
                 maximumValue={100}  />
           </View>
           <View>
-            <TextInput multiline={true} placeholder="Please enter some text"></TextInput>
+            <TextInput multiline={false} onChangeText={(text) => this.setState({text})} placeholder="Please enter some text" ></TextInput>
           </View>
           <View>
-            <Text></Text>
+            <Text>
+              {this.state.text.split('').map((word) => this.toMorse(word.toUpperCase())).join('  ')}
+            </Text>
           </View>
         </View>
       );
+  }
+  toMorse(word_input){
+    var morse = {
+      " ":" / ",
+      "'":".----.",
+      "(":"-.--.-",
+      ")":"-.--.-",
+      ",":"--..--",
+      "-":"-....-",
+      ".":".-.-.-",
+      "/":"-..-.",
+      "0":"-----",
+      "1":".----",
+      "2":"..---",
+      "3":"...--",
+      "4":"....-",
+      "5":".....",
+      "6":"-....",
+      "7":"--...",
+      "8":"---..",
+      "9":"----.",
+      ":":"---...",
+      ";":"-.-.-.",
+      "?":"..--..",
+      "A":".-",
+      "B":"-...",
+      "C":"-.-.",
+      "D":"-..",
+      "E":".",
+      "F":"..-.",
+      "G":"--.",
+      "H":"....",
+      "I":"..",
+      "J":".---",
+      "K":"-.-",
+      "L":".-..",
+      "M":"--",
+      "N":"-.",
+      "O":"---",
+      "P":".--.",
+      "Q":"--.-",
+      "R":".-.",
+      "S":"...",
+      "T":"-",
+      "U":"..-",
+      "V":"...-",
+      "W":".--",
+      "X":"-..-",
+      "Y":"-.--",
+      "Z":"--..",
+      "_":"..--.-"
+    }
+    return (morse[word_input]);
   }
 }
 
