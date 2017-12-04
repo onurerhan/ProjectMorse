@@ -1,13 +1,7 @@
 import React, {Component} from 'react';
-<<<<<<< HEAD
-import { StyleSheet, Text, View, StatusBar,TextInput,AppRegistry,
-  Dimensions,
-  TouchableHighlight  } from 'react-native';
-=======
 import { StyleSheet, Text, View, StatusBar,TextInput, 
         Picker  } from 'react-native';
 
->>>>>>> erol-dev
 import { colors } from '../config/styles';
 import Button from '../components/Button';
 import Camera from 'react-native-camera';
@@ -32,23 +26,8 @@ const styles = StyleSheet.create({
     decode: {
       flexDirection:"row"
     },
-<<<<<<< HEAD
-    preview: {
-      flex: 1,
-      justifyContent: 'flex-end',
-      alignItems: 'center'
-    },
-    capture: {
-      flex: 0,
-      backgroundColor: '#fff',
-      borderRadius: 5,
-      color: '#000',
-      padding: 10,
-      margin: 40
-=======
     pickerStyle: {
       width:'60%'
->>>>>>> erol-dev
     }
 });
 
@@ -81,18 +60,6 @@ class Decode extends Component {
             </Picker>
           </View>
         </View>
-<<<<<<< HEAD
-        <Camera
-          ref={(cam) => {
-            this.camera = cam;
-          }}
-          style={styles.preview}
-          aspect={Camera.constants.Aspect.fill}>
-          <Text style={styles.capture} onPress={this.takePicture.bind(this)}>[CAPTURE]</Text>
-        </Camera>
-
-=======
->>>>>>> erol-dev
       </View>
     );
   }

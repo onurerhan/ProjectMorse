@@ -45,12 +45,6 @@ const styles = StyleSheet.create({
 });
 
 class Encode extends Component {
-<<<<<<< HEAD
-  constructor(props) {
-    super(props);
-    this.state = {text: ''};
-  }
-=======
 
   constructor(props){
     super(props);
@@ -73,7 +67,6 @@ class Encode extends Component {
     Vibration.vibrate(PATTERN);
   }
 
->>>>>>> erol-dev
   render() {
 
     return (
@@ -83,21 +76,12 @@ class Encode extends Component {
           </View>
           <View style={styles.optionContainer}>
             <Text>Use Flashlight</Text>
-<<<<<<< HEAD
-            <Switch value={false} />
-          </View>
-          <View style={styles.optionContainer}>
-            <Text>Use Sound</Text>
-            <Switch value={false} />
-          </View>
-=======
             <CustomSwitch value={this.state.isFlashlight} onValueChange = {(value) => {this.setState({isFlashlight:value})}} />
           </View>
           <View style={styles.optionContainer}>
             <Text>Use Sound</Text>
             <CustomSwitch value={this.state.isSound} onValueChange = {(value) => {this.setState({isSound:value})}} />
             </View>
->>>>>>> erol-dev
           <View style={styles.optionContainer}>
             <Text>Use Vibration</Text>
             <CustomSwitch value={this.state.isVibration} onValueChange = {(value) => {this.setState({isVibration:value})}} />
@@ -111,15 +95,6 @@ class Encode extends Component {
                 minimumValue={1}
                 maximumValue={100}  />
           </View>
-<<<<<<< HEAD
-          <View>
-            <TextInput multiline={false} onChangeText={(text) => this.setState({text})} placeholder="Please enter some text" ></TextInput>
-          </View>
-          <View>
-            <Text>
-              {this.state.text.split('').map((character) => this.toMorse(character.toUpperCase())).join('  ')}
-            </Text>
-=======
           <View style = {styles.morseConvertContainer}>
             <View style={styles.morseTextInput}>
               <TextInput multiline={true} onChangeText={(text) => this.setState({text})} placeholder="Please enter some text"></TextInput>
@@ -127,7 +102,6 @@ class Encode extends Component {
             <View style={{}}>
               <Button text= "Convert" onPress = {() => {this.Vibrate()}} />
             </View>
->>>>>>> erol-dev
           </View>
 
           <View style= {styles.titleContainer}>
@@ -138,63 +112,7 @@ class Encode extends Component {
         </View>
       );
   }
-<<<<<<< HEAD
-  toMorse(char_input){
-    var morse = {
-      " ":" / ",
-      "'":".----.",
-      "(":"-.--.-",
-      ")":"-.--.-",
-      ",":"--..--",
-      "-":"-....-",
-      ".":".-.-.-",
-      "/":"-..-.",
-      "0":"-----",
-      "1":".----",
-      "2":"..---",
-      "3":"...--",
-      "4":"....-",
-      "5":".....",
-      "6":"-....",
-      "7":"--...",
-      "8":"---..",
-      "9":"----.",
-      ":":"---...",
-      ";":"-.-.-.",
-      "?":"..--..",
-      "A":".-",
-      "B":"-...",
-      "C":"-.-.",
-      "D":"-..",
-      "E":".",
-      "F":"..-.",
-      "G":"--.",
-      "H":"....",
-      "I":"..",
-      "J":".---",
-      "K":"-.-",
-      "L":".-..",
-      "M":"--",
-      "N":"-.",
-      "O":"---",
-      "P":".--.",
-      "Q":"--.-",
-      "R":".-.",
-      "S":"...",
-      "T":"-",
-      "U":"..-",
-      "V":"...-",
-      "W":".--",
-      "X":"-..-",
-      "Y":"-.--",
-      "Z":"--..",
-      "_":"..--.-"
-    }
-    return (morse[char_input]);
-  }
-=======
   
->>>>>>> erol-dev
 }
 
 export default Encode;
