@@ -58,6 +58,7 @@ class Decode extends Component {
                 <Picker.Item label="With camera" value="1" />
                 <Picker.Item label="With microphone" value="2" />
             </Picker>
+            
           </View>
         </View>
       </View>

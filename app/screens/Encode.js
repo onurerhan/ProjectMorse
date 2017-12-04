@@ -5,7 +5,6 @@ import Button from '../components/Button';
 import CustomSwitch from '../components/CustomSwitch';
 import Morse from '../config/Morse';
 
-const PATTERN = 1000;
 
 const styles = StyleSheet.create({
     container: {
@@ -50,21 +49,40 @@ class Encode extends Component {
     super(props);
 
     this.state = {
-      isFlashlight: true,
+      isFlashlight: false,
       isSound: false,
-      isVibration: false,
+      isVibration: true,
       speed: 12,
       text: ""
     }
 
   }
 
-  ConvertMorseToText = (charInput) => {
+  ConvertTextToMorse = () => {
+    return this.state.text.split('').map((character) => this.FindMorseOf(character.toUpperCase())).join('  ');
+    
+  }
+
+  FindMorseOf = (charInput) => {
     return Morse[charInput];
   }
 
   Vibrate = () => {
-    Vibration.vibrate(PATTERN);
+    var user_input = this.ConvertTextToMorse();
+    var morse_output = [10];
+    for(var counter = 0; counter < user_input.length; counter++){
+      if(user_input[counter]=="-"){
+        morse_output.push(parseInt(2000/this.state.speed));
+      } else if(user_input[counter]=="."){
+        morse_output.push(parseInt(1000/this.state.speed));
+      } else if(user_input[counter]=="/"){
+        morse_output.push(0, parseInt(2000/this.state.speed), 0);
+      } else if(user_input[counter]==" "){
+        morse_output.push(0, parseInt(1000/this.state.speed), 0);
+      }
+      morse_output.push(parseInt(1000/this.state.speed));
+    }
+    Vibration.vibrate(morse_output);
   }
 
   render() {
@@ -87,7 +105,7 @@ class Encode extends Component {
             <CustomSwitch value={this.state.isVibration} onValueChange = {(value) => {this.setState({isVibration:value})}} />
             </View>
           <View style={styles.optionContainer}>
-            <Text>Speed(WPM) # {this.state.speed}</Text>
+            <Text>Speed:{this.state.speed} WPM</Text>
             
             <Slider style={styles.slider} step={1} 
                 value={this.state.speed}
@@ -106,7 +124,7 @@ class Encode extends Component {
 
           <View style= {styles.titleContainer}>
             <Text style={styles.title}>Live Morse to Text</Text>
-            <Text style={styles.liveConvert}>{this.state.text.split('').map((character) => this.ConvertMorseToText(character.toUpperCase())).join('  ')}</Text>
+            <Text style={styles.liveConvert}>{this.ConvertTextToMorse()}</Text>
           </View>
 
         </View>
