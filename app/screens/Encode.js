@@ -69,20 +69,21 @@ class Encode extends Component {
 
   Vibrate = () => {
     var user_input = this.ConvertTextToMorse();
-    var morse_output = [10];
+    var vibration_time = [0];
+    var unit_time =parseInt(1000/this.state.speed);
     for(var counter = 0; counter < user_input.length; counter++){
       if(user_input[counter]=="-"){
-        morse_output.push(parseInt(2000/this.state.speed));
+        vibration_time.push(parseInt(2 * unit_time));
       } else if(user_input[counter]=="."){
-        morse_output.push(parseInt(1000/this.state.speed));
+        vibration_time.push(unit_time);
       } else if(user_input[counter]=="/"){
-        morse_output.push(0, parseInt(2000/this.state.speed), 0);
+        vibration_time.push(0, 2 * unit_time, 0);
       } else if(user_input[counter]==" "){
-        morse_output.push(0, parseInt(1000/this.state.speed), 0);
+        vibration_time.push(0, unit_time, 0);
       }
-      morse_output.push(parseInt(1000/this.state.speed));
+      vibration_time.push(unit_time);
     }
-    Vibration.vibrate(morse_output);
+    Vibration.vibrate(vibration_time);
   }
 
   render() {
