@@ -124,7 +124,7 @@ class Encode extends Component {
           </View>
 
           <View style= {styles.titleContainer}>
-            <Text style={styles.title}>Live Morse to Text</Text>
+            <Text style={styles.title}>Live Text to Morse</Text>
             <Text style={styles.liveConvert}>{this.ConvertTextToMorse()}</Text>
           </View>
 
