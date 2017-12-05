@@ -52,7 +52,7 @@ class Encode extends Component {
       isFlashlight: false,
       isSound: false,
       isVibration: true,
-      speed: 12,
+      speed: 20,
       text: ""
     }
 
@@ -71,19 +71,21 @@ class Encode extends Component {
     var user_input = this.ConvertTextToMorse();
     var vibration_time = [0];
     var unit_time =parseInt(1000/this.state.speed);
-    for(var counter = 0; counter < user_input.length; counter++){
-      if(user_input[counter]=="-"){
-        vibration_time.push(parseInt(2 * unit_time));
-      } else if(user_input[counter]=="."){
+    if(this.state.isVibration === true){
+      for(var counter = 0; counter < user_input.length; counter++){
+        if(user_input[counter]=="-"){
+          vibration_time.push(parseInt(2 * unit_time));
+        } else if(user_input[counter]=="."){
+          vibration_time.push(unit_time);
+        } else if(user_input[counter]=="/"){
+          vibration_time.push(0, 2 * unit_time, 0);
+        } else if(user_input[counter]==" "){
+          vibration_time.push(0, unit_time, 0);
+        }
         vibration_time.push(unit_time);
-      } else if(user_input[counter]=="/"){
-        vibration_time.push(0, 2 * unit_time, 0);
-      } else if(user_input[counter]==" "){
-        vibration_time.push(0, unit_time, 0);
       }
-      vibration_time.push(unit_time);
+      Vibration.vibrate(vibration_time);
     }
-    Vibration.vibrate(vibration_time);
   }
 
   render() {
