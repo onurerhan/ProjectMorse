@@ -43,7 +43,7 @@ const styles = StyleSheet.create({
 });
 
 
-const delay = ms => new Promise(resolve => setTimeout(resolve, ms));
+const wait = ms => new Promise(resolve => setTimeout(resolve, ms));
 
 class Encode extends Component {
 
@@ -75,7 +75,7 @@ class Encode extends Component {
   async Try(){
   for (let i = 5; i < 10; i++) {
     console.warn("SomeTime: " + i)
-    await delay(1000*i);
+    await wait(1000*i);
 
     }  
   }
