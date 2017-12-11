@@ -5,6 +5,7 @@ import Button from '../components/Button';
 import CustomSwitch from '../components/CustomSwitch';
 import Morse from '../config/Morse';
 import Sound from 'react-native-sound';
+import Torch from 'react-native-torch';
 
 const styles = StyleSheet.create({
     container: {
@@ -71,45 +72,56 @@ class Encode extends Component {
     return Morse[charInput];
   }
 
+  Main(){
+    if(this.state.isFlashlight === true){
+      this.Flash();
+    }
+    if(this.state.isSound === true){
+      
+    }
+    if(this.state.isVibration === true){
+      this.Vibrate();
+    }
+  }
 
-
-  async Try(){
-  for (let i = 5; i < 10; i++) {
-    console.warn("SomeTime: " + i)
-    await wait(1000*i);
-
-    }  
+  async Flash(){
+    var user_input = this.ConvertTextToMorse();
+    var unit_time =parseInt(1000/this.state.speed);
+    for (var counter = 0; counter < user_input.length; counter++) {
+      if(user_input[counter]=="-"){
+        Torch.switchState(true);
+        await wait(unit_time * 2);
+      } else if(user_input[counter]=="."){
+        Torch.switchState(true);
+        await wait(unit_time);
+      } else if(user_input[counter]=="/"){
+        await wait(unit_time * 2);
+      } else if(user_input[counter]==" "){
+        await wait(unit_time);
+      }
+      Torch.switchState(false);
+      await wait(unit_time);
+      }  
   }
 
   Vibrate = () => {
     var user_input = this.ConvertTextToMorse();
     var vibration_time = [0];
     var unit_time =parseInt(1000/this.state.speed);
-
-    if(this.state.isFlashlight === true){
-      
-    }
-    if(this.state.isSound === true){
-      Sound.setCategory('Playback');
-      var whoosh = new Sound('hz.mp3', Sound.MAIN_BUNDLE);
-      
-      whoosh.play();
-    }
-    if(this.state.isVibration === true){
-      for(var counter = 0; counter < user_input.length; counter++){
-        if(user_input[counter]=="-"){
-          vibration_time.push(parseInt(2 * unit_time));
-        } else if(user_input[counter]=="."){
-          vibration_time.push(unit_time);
-        } else if(user_input[counter]=="/"){
-          vibration_time.push(0, 2 * unit_time, 0);
-        } else if(user_input[counter]==" "){
-          vibration_time.push(0, unit_time, 0);
-        }
+    
+    for(var counter = 0; counter < user_input.length; counter++){
+      if(user_input[counter]=="-"){
+        vibration_time.push(parseInt(2 * unit_time));
+      } else if(user_input[counter]=="."){
         vibration_time.push(unit_time);
+      } else if(user_input[counter]=="/"){
+        vibration_time.push(0, 2 * unit_time, 0);
+      } else if(user_input[counter]==" "){
+        vibration_time.push(0, unit_time, 0);
       }
-      Vibration.vibrate(vibration_time);
+      vibration_time.push(unit_time);
     }
+    Vibration.vibrate(vibration_time);
   }
 
   render() {
@@ -145,7 +157,7 @@ class Encode extends Component {
               <TextInput multiline={true} onChangeText={(text) => this.setState({text})} placeholder="Please enter some text"></TextInput>
             </View>
             <View style={{}}>
-              <Button text= "Convert" onPress = {() => {this.Vibrate()}} />
+              <Button text= "Convert" onPress = {() => {this.Main();}} />
             </View>
           </View>
 
@@ -155,7 +167,7 @@ class Encode extends Component {
           </View>
 
           <Button text="try"
-            onPress= {() => {this.Try()}}
+            onPress= {() => {this.Flash()}}
           />
 
         </View>
