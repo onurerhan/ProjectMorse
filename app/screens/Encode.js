@@ -95,7 +95,7 @@ class Encode extends Component {
         Torch.switchState(true);
         await wait(unit_time);
       } else if(user_input[counter]=="/"){
-        await wait(unit_time * 2);
+        await wait(unit_time * 1.6);
       } else if(user_input[counter]==" "){
         await wait(unit_time);
       }
@@ -165,10 +165,6 @@ class Encode extends Component {
             <Text style={styles.title}>Live Text to Morse</Text>
             <Text style={styles.liveConvert}>{this.ConvertTextToMorse()}</Text>
           </View>
-
-          <Button text="try"
-            onPress= {() => {this.Flash()}}
-          />
 
         </View>
       );
