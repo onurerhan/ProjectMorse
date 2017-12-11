@@ -5,7 +5,6 @@ import Button from '../components/Button';
 import CustomSwitch from '../components/CustomSwitch';
 import Morse from '../config/Morse';
 
-
 const styles = StyleSheet.create({
     container: {
       flex: 1,
@@ -43,6 +42,9 @@ const styles = StyleSheet.create({
     }
 });
 
+
+const delay = ms => new Promise(resolve => setTimeout(resolve, ms));
+
 class Encode extends Component {
 
   constructor(props){
@@ -58,6 +60,7 @@ class Encode extends Component {
 
   }
 
+
   ConvertTextToMorse = () => {
     return this.state.text.split('').map((character) => this.FindMorseOf(character.toUpperCase())).join('  ');
     
@@ -65,6 +68,16 @@ class Encode extends Component {
 
   FindMorseOf = (charInput) => {
     return Morse[charInput];
+  }
+
+
+
+  async Try(){
+  for (let i = 5; i < 10; i++) {
+    console.warn("SomeTime: " + i)
+    await delay(1000*i);
+
+    }  
   }
 
   Vibrate = () => {
@@ -129,6 +142,10 @@ class Encode extends Component {
             <Text style={styles.title}>Live Text to Morse</Text>
             <Text style={styles.liveConvert}>{this.ConvertTextToMorse()}</Text>
           </View>
+
+          <Button text="try"
+            onPress= {() => {this.Try()}}
+          />
 
         </View>
       );
