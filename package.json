@@ -10,7 +10,11 @@
     "react": "16.0.0",
     "react-native": "0.50.4",
     "react-native-camera": "^0.12.0",
+<<<<<<< HEAD
     "react-native-sound": "^0.10.4",
+=======
+    "react-native-vector-icons": "^4.4.2",
+>>>>>>> erol-dev
     "react-navigation": "^1.0.0-beta.21"
   },
   "devDependencies": {
