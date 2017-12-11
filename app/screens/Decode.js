@@ -17,7 +17,6 @@ const styles = StyleSheet.create({
       alignItems:'flex-end'
     },
     optionContainer: {
-    
     },
     main: {
       fontSize: 20,
@@ -66,7 +65,6 @@ class Decode extends Component {
         <StatusBar 
           backgroundColor={colors.statusBar}
           barStyle="light-content" />
-
         <View style={styles.decode}>
           <View style={styles.pickerContainer}>
             <Picker
@@ -78,14 +76,10 @@ class Decode extends Component {
                 <Picker.Item label="With camera" value="1" />
                 <Picker.Item label="With microphone" value="2" />
             </Picker>
-            
           </View>
-
-
         </View>
         <View style={styles.optionContainer}>
               {this.state.decodeOption == 1 &&
-                  
                   <Camera
                     ref={(cam) => {
                       this.camera = cam;
@@ -93,9 +87,7 @@ class Decode extends Component {
                     style={styles.preview}
                     aspect={Camera.constants.Aspect.fill}>
                 </Camera>
-                  
               }
-
           <View style= {styles.titleContainer}>
             <Text style={styles.title}>Morse to Text</Text>
             <Text style={styles.liveConvert}></Text>

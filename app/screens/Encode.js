@@ -4,6 +4,7 @@ import { colors } from '../config/styles';
 import Button from '../components/Button';
 import CustomSwitch from '../components/CustomSwitch';
 import Morse from '../config/Morse';
+import Sound from 'react-native-sound';
 
 
 const styles = StyleSheet.create({
@@ -71,6 +72,16 @@ class Encode extends Component {
     var user_input = this.ConvertTextToMorse();
     var vibration_time = [0];
     var unit_time =parseInt(1000/this.state.speed);
+
+    if(this.state.isFlashlight === true){
+      
+    }
+    if(this.state.isSound === true){
+      Sound.setCategory('Playback');
+      var whoosh = new Sound('hz.mp3', Sound.MAIN_BUNDLE);
+      
+      whoosh.play();
+    }
     if(this.state.isVibration === true){
       for(var counter = 0; counter < user_input.length; counter++){
         if(user_input[counter]=="-"){
