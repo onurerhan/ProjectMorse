@@ -47,8 +47,16 @@ const styles = StyleSheet.create({
 
 const wait = ms => new Promise(resolve => setTimeout(resolve, ms));
 
-class Encode extends Component {
+var whoosh;
 
+
+class Encode extends Component {
+  componentDidMount(){
+    whoosh = new Sound('hz.mp3', Sound.MAIN_BUNDLE, (error) => {
+     
+    });
+
+  }
   constructor(props){
     super(props);
 
@@ -76,9 +84,9 @@ class Encode extends Component {
     if(this.state.isFlashlight === true){
       this.Flash();
     }
-    if(this.state.isSound === true){
-      
-    }
+    if(this.state.isSound === true){ 
+      this.Audio();        
+    } 
     if(this.state.isVibration === true){
       this.Vibrate();
     }
@@ -103,7 +111,28 @@ class Encode extends Component {
       await wait(unit_time);
       }  
   }
+  async Audio(){
+// Play the sound with an onEnd callback
+    
 
+    var user_input = this.ConvertTextToMorse();
+    var unit_time =parseInt(1000/this.state.speed);
+    for (var counter = 0; counter < user_input.length; counter++) {
+      if(user_input[counter]=="-"){
+        whoosh.play();
+        await wait(unit_time * 2);
+      } else if(user_input[counter]=="."){
+        whoosh.play();
+        await wait(unit_time);
+      } else if(user_input[counter]=="/"){
+        await wait(unit_time * 1.6);
+      } else if(user_input[counter]==" "){
+        await wait(unit_time);
+      }
+      whoosh.stop();
+      await wait(unit_time);
+      }  
+  }
   Vibrate = () => {
     var user_input = this.ConvertTextToMorse();
     var vibration_time = [0];
