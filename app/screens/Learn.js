@@ -13,7 +13,7 @@ const styles = StyleSheet.create({
     innerContainer:{
       flex:1,
       alignSelf:'stretch',
-      margin: 10,
+      margin: 20, // We can change to 10, Onur?
       padding:5,
       backgroundColor:'#FFF'
     },
@@ -79,6 +79,7 @@ class Learn extends Component {
         <View style={styles.container}>
           <View style={styles.innerContainer}>
             <View style={styles.content}>
+            
               <View style={styles.header}>
                 <View style={styles.textSection}>
                   <Text style={styles.learnText}>Learn using Koch Method</Text>
@@ -109,13 +110,10 @@ class Learn extends Component {
                       } 
                       onPressOut = {
                         () => {
-                          console.warn('In')
+                          console.warn('Out')
                         }
-                      }
-                    >  
-                
+                      }>  
                     <Icon name="refresh" size={60} color="#fff" />
-
                   </TouchableOpacity>
                 </View>
               </View>

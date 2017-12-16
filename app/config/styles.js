@@ -8,5 +8,6 @@ export const colors = {
     buttonBackground: '#78AB46',
     buttonText: '#FFFFFF',
     inputBackground: '#FFFFFF',
-    inputDivider: '#E4E2E5'
+    inputDivider: '#E4E2E5',
+    blackColor: '#000'
 };
