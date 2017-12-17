@@ -5,6 +5,7 @@ import { StyleSheet, Text, View, StatusBar,TextInput,
 import { colors } from '../config/styles';
 import Button from '../components/Button';
 import Camera from 'react-native-camera';
+import Morse from '../config/Morse';
 
 const styles = StyleSheet.create({
     container: {
@@ -43,7 +44,11 @@ const styles = StyleSheet.create({
     title: {    
       color: "#212f15",
       fontSize:16
-    }
+    },
+    liveConvert: {
+      fontSize:17, 
+      fontWeight:"500"
+    },
 });
 
 class Decode extends Component {
@@ -51,8 +56,18 @@ class Decode extends Component {
   constructor(props){
     super(props);
     this.state = {
-      decodeOption: "java"
+      decodeOption: 0,
+      text: ""
     }
+  }
+  
+  ConvertMorseToText = () => {
+    var userinput = this.state.text.split(" ");
+    var textoutput = "";
+    for(n=0;n<userinput.length;n++){
+      textoutput += Object.keys(Morse).find(key => Morse[key] === userinput[n]);
+    }
+    return textoutput;
   }
 
   DetectChange = (itemValue, itemIndex) => {
@@ -79,18 +94,25 @@ class Decode extends Component {
           </View>
         </View>
         <View style={styles.optionContainer}>
-              {this.state.decodeOption == 1 &&
-                  <Camera
-                    ref={(cam) => {
-                      this.camera = cam;
-                    }}
-                    style={styles.preview}
-                    aspect={Camera.constants.Aspect.fill}>
-                </Camera>
-              }
+          {
+            this.state.decodeOption == 0 &&
+            <View style={styles.morseTextInput}>
+              <TextInput multiline={true} onChangeText={(text) => this.setState({text})} placeholder="Please enter some text"></TextInput>
+            </View>
+          }
+          {
+            this.state.decodeOption == 1 &&
+            <Camera
+              ref={(cam) => {
+                this.camera = cam;
+              }}
+              style={styles.preview}
+              aspect={Camera.constants.Aspect.fill}>
+            </Camera>
+          }
           <View style= {styles.titleContainer}>
             <Text style={styles.title}>Morse to Text</Text>
-            <Text style={styles.liveConvert}></Text>
+            <Text style={styles.liveConvert}>{this.ConvertMorseToText()}</Text>
           </View>
        </View>
       </View>

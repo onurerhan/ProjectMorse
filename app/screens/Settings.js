@@ -97,7 +97,7 @@ class Settings extends Component {
                     onValueChange={(itemValue, itemIndex) => {}}>
                       <Picker.Item label="English" value="0" />
                       <Picker.Item label="Türkçe" value="1" />
-                      <Picker.Item label="Dutch" value="2" />
+                      <Picker.Item label="Deutsch" value="2" />
                       <Picker.Item label="Polskie" value="3" />
                   </Picker>
               </View>

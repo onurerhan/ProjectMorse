@@ -3,6 +3,7 @@ import { StyleSheet, Text, View, TouchableOpacity } from 'react-native';
 import { colors } from '../config/styles';
 import Button from '../components/Button';
 import Icon from 'react-native-vector-icons/MaterialIcons';
+import Morse from '../config/Morse';
 
 const styles = StyleSheet.create({
     container: {
@@ -68,10 +69,47 @@ const styles = StyleSheet.create({
     button: {flex:1, justifyContent:'center', alignItems:'center'}
 });
 
+const wait = ms => new Promise(resolve => setTimeout(resolve, ms));
+
 class Learn extends Component {
 
   constructor(props){
     super(props);
+    this.state = {
+      morse: "",
+      text: "",
+      dot: false,
+      dash: false,
+      blank:false,
+      lock: false,
+      wpm: 20
+    }
+  }
+
+  ConvertMorseToText = () => {
+    var userinput = this.state.morse.split(" ");
+    var textoutput = "";
+    for(n=0;n<userinput.length;n++){
+      textoutput += Object.keys(Morse).find(key => Morse[key] === userinput[n]);
+    }
+    return textoutput;
+  }
+
+  PrintMorse = () => {
+    return this.morse;
+  }
+  async getMorse(){
+    var morseofbutton = this.state.morse;
+    await wait(100);
+    if(this.lock == false){
+      morseofbutton += ".";
+    } else{
+      await wait(600);
+      if(this.lock == false){
+        morseofbutton += "-";
+      }//write ? for some time in screen
+    }
+    this.setState({morse:morseofbutton});
   }
 
   render() {
@@ -89,28 +127,28 @@ class Learn extends Component {
                   <Icon name="assessment" size={50} color="#86DF13" />
                 </View>
               </View>
-           
               <View style={styles.characterSection}>
-                <Text style={styles.letter}>B</Text>
+                <Text style={styles.letter}>{this.ConvertMorseToText()}</Text>
                 <TouchableOpacity>
                   <Icon name="help" size={36} color="#757575" />
                 </TouchableOpacity>
                 <Text style={styles.answer}></Text>
               </View>
               <View style={styles.morseSection}>
-                <Text style={styles.userInput}>-...</Text>
+                <Text style={styles.userInput}>{this.state.morse}</Text>
               </View>
               <View style={styles.buttonSection}>
                 <View style={styles.buttonContainer}>
                   <TouchableOpacity activeOpacity={0.6} style={styles.button} 
                       onPressIn = {
                         () => {
-                          console.warn('In')
+                          this.lock = true;
+                          this.getMorse();
                         }
                       } 
                       onPressOut = {
                         () => {
-                          console.warn('Out')
+                          this.lock = false;
                         }
                       }>  
                     <Icon name="refresh" size={60} color="#fff" />
