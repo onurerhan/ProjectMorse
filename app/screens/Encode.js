@@ -44,11 +44,9 @@ const styles = StyleSheet.create({
     }
 });
 
-
 const wait = ms => new Promise(resolve => setTimeout(resolve, ms));
 
 var whoosh;
-
 
 class Encode extends Component {
   componentDidMount(){
@@ -71,9 +69,10 @@ class Encode extends Component {
 
   }
 
-
   ConvertTextToMorse = () => {
-    return this.state.text.split('').map((character) => this.FindMorseOf(character.toUpperCase())).join('  ');
+    return this.state.text.split('')
+                          .map((character) => this.FindMorseOf(character.toUpperCase()))
+                          .join('  ');
     
   }
 
@@ -113,11 +112,9 @@ class Encode extends Component {
       }  
   }
   async Audio(){
-// Play the sound with an onEnd callback
     
-
     var user_input = this.ConvertTextToMorse();
-    var unit_time =parseInt(1000/this.state.speed);
+    var unit_time = parseInt(1000/this.state.speed);
     for (var counter = 0; counter < user_input.length; counter++) {
       if(user_input[counter]=="-"){
         whoosh.play();
@@ -132,7 +129,7 @@ class Encode extends Component {
       }
       whoosh.stop();
       await wait(unit_time);
-      }  
+    }  
   }
   Vibrate = () => {
     var user_input = this.ConvertTextToMorse();

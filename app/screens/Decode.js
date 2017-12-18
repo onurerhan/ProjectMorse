@@ -55,17 +55,20 @@ class Decode extends Component {
 
   constructor(props){
     super(props);
+
     this.state = {
       decodeOption: 0,
       text: ""
     }
+    
   }
   
   ConvertMorseToText = () => {
     var userinput = this.state.text.split(" ");
     var textoutput = "";
     for(n=0;n<userinput.length;n++){
-      textoutput += Object.keys(Morse).find(key => Morse[key] === userinput[n]);
+      textoutput += Object.keys(Morse)
+                          .find(key => Morse[key] === userinput[n]);
     }
     return textoutput;
   }
