@@ -107,7 +107,16 @@ class Learn extends Component {
       await wait(600);
       if(this.lock == false){
         morseofbutton += "-";
-      }//write ? for some time in screen
+      }
+    }
+    this.setState({morse:morseofbutton});
+  }
+
+  async getSpace(){
+    var morseofbutton = this.state.morse;
+    await wait(500);
+    if(this.lock == false){
+      morseofbutton += " ";
     }
     this.setState({morse:morseofbutton});
   }
@@ -132,6 +141,9 @@ class Learn extends Component {
                 <TouchableOpacity>
                   <Icon name="help" size={36} color="#757575" />
                 </TouchableOpacity>
+                <TouchableOpacity onPress={() => this.setState({morse: ''})}>
+                  <Icon name="clear" size={30} color="#757575" />
+                </TouchableOpacity>
                 <Text style={styles.answer}></Text>
               </View>
               <View style={styles.morseSection}>
@@ -149,6 +161,7 @@ class Learn extends Component {
                       onPressOut = {
                         () => {
                           this.lock = false;
+                          //this.getSpace();
                         }
                       }>  
                     <Icon name="refresh" size={60} color="#fff" />
