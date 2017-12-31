@@ -94,7 +94,7 @@ class Encode extends Component {
 
   async Flash(){
     var user_input = this.ConvertTextToMorse();
-    var unit_time =parseInt(1000/this.state.speed);
+    var unit_time =parseInt(400/this.state.speed);
     for (var counter = 0; counter < user_input.length; counter++) {
       if(user_input[counter]=="-"){
         Torch.switchState(true);
@@ -114,7 +114,7 @@ class Encode extends Component {
   async Audio(){
     
     var user_input = this.ConvertTextToMorse();
-    var unit_time = parseInt(1000/this.state.speed);
+    var unit_time = parseInt(400/this.state.speed);
     for (var counter = 0; counter < user_input.length; counter++) {
       if(user_input[counter]=="-"){
         whoosh.play();
@@ -134,7 +134,7 @@ class Encode extends Component {
   Vibrate = () => {
     var user_input = this.ConvertTextToMorse();
     var vibration_time = [0];
-    var unit_time =parseInt(1000/this.state.speed);
+    var unit_time =parseInt(400/this.state.speed);
     
     for(var counter = 0; counter < user_input.length; counter++){
       if(user_input[counter]=="-"){
