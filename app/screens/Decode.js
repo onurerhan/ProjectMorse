@@ -49,6 +49,9 @@ const styles = StyleSheet.create({
       fontSize:17, 
       fontWeight:"500"
     },
+    morseButton: {
+
+    },
 });
 
 class Decode extends Component {
@@ -76,6 +79,10 @@ class Decode extends Component {
     this.setState({decodeOption: itemValue});
   }
 
+  AddtoText(){
+    this.setState({text: this.state.text + "."})
+  }
+
   render() {
     return (
       <View style={styles.container}>
@@ -83,6 +90,10 @@ class Decode extends Component {
           backgroundColor={colors.statusBar}
           barStyle="light-content" />
         <View style={styles.decode}>
+        <View style= {styles.titleContainer}>
+            <Text style={styles.title}>Morse to Text</Text>
+            <Text style={styles.liveConvert}>{this.ConvertMorseToText()}</Text>
+        </View>
           <View style={styles.pickerContainer}>
             <Picker
               mode="dropdown"
@@ -99,7 +110,13 @@ class Decode extends Component {
           {
             this.state.decodeOption == 0 &&
             <View style={styles.morseTextInput}>
-              <TextInput multiline={true} onChangeText={(text) => this.setState({text})} placeholder="Please enter some text"></TextInput>
+              <TextInput multiline={true} onChangeText={(text) => this.setState({text})} placeholder="Please enter text"></TextInput>
+              <View>
+                <Button style={styles.morseButton} text= "." onPress = {() => this.setState({text: '.'})} />
+                <Button style={styles.morseButton} text= "-" onPress = {() => this.setState({text: '-'})} />
+                <Button style={styles.morseButton} text= "^" onPress = {() => this.setState({text: ' '})} />
+                <Button style={styles.morseButton} text= "clear" onPress = {() => this.setState({text: ''})} />
+              </View>
             </View>
           }
           {
@@ -112,10 +129,8 @@ class Decode extends Component {
               aspect={Camera.constants.Aspect.fill}>
             </Camera>
           }
-          <View style= {styles.titleContainer}>
-            <Text style={styles.title}>Morse to Text</Text>
-            <Text style={styles.liveConvert}>{this.ConvertMorseToText()}</Text>
-          </View>
+          
+          
        </View>
       </View>
     );

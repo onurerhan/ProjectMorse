@@ -63,7 +63,7 @@ class Encode extends Component {
       isFlashlight: false,
       isSound: false,
       isVibration: true,
-      speed: 20,
+      speed: 5,
       text: ""
     }
 
