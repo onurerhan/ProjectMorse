@@ -65,7 +65,9 @@ class Decode extends Component {
 
   constructor(props){
     super(props);
-
+    this.AddDot = this.AddDot.bind(this);
+    this.AddDash = this.AddDash.bind(this);
+    this.AddSpace = this.AddSpace.bind(this);
     this.state = {
       decodeOption: 0,
       text: ""
@@ -86,10 +88,25 @@ class Decode extends Component {
     this.setState({decodeOption: itemValue});
   }
 
-  AddtoText(){
-    this.setState({text: this.state.text + "."})
+  AddDot(){
+    var hold = this.state.text;
+    var output = hold + ".";
+    this.setState({text: output});
   }
 
+  AddDash(){
+    var hold = this.state.text;
+    var output = hold + "-";
+    this.setState({text: output});
+  }
+
+  AddSpace(){
+    var hold = this.state.text;
+    var output = hold + " ";
+    this.setState({text: output});
+  }
+// not working otherwise need to find better fix
+// need to fix css
   render() {
     return (
       <View style={styles.container}>
@@ -114,7 +131,13 @@ class Decode extends Component {
               {
                 this.state.decodeOption == 0 &&
                 <View style={styles.morseTextInput}>
-                  <TextInput multiline={true} onChangeText={(text) => this.setState({text})} placeholder="Please enter some text"></TextInput>
+                  <TextInput value={this.state.text} ref={'textInput1'} multiline={true} onChangeText={(text) => this.setState({text})} placeholder="Please enter some text"></TextInput>
+                  <View>
+                    <Button text= "." onPress = {this.AddDot} />
+                    <Button text= "-" onPress = {this.AddDash} />
+                    <Button text= "^" onPress = {this.AddSpace} />
+                    <Button text= "clear" onPress = {() => this.setState({text: ''})} />
+                  </View>
                 </View>
               }
               {
@@ -131,6 +154,7 @@ class Decode extends Component {
                 <Text style={styles.title}>Morse to Text</Text>
                 <Text style={styles.liveConvert}>{this.ConvertMorseToText()}</Text>
               </View>
+              
           </View>
         </View>
       </View>
