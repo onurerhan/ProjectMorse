@@ -4,7 +4,7 @@ import { colors } from '../config/styles';
 import Button from '../components/Button';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import Morse from '../config/Morse';
-
+import I18n from '../../app/config/i18n';
 const styles = StyleSheet.create({
     container: {
       flex: 1,
@@ -14,7 +14,7 @@ const styles = StyleSheet.create({
     innerContainer:{
       flex:1,
       alignSelf:'stretch',
-      margin: 20, // We can change to 10, Onur?
+      margin: 20,
       padding:5,
       backgroundColor:'#FFF'
     },
@@ -57,10 +57,12 @@ const styles = StyleSheet.create({
       alignItems:'center'
     },
     learnText:{
-      fontWeight:'bold', fontSize:18, color:'#000'
+      fontWeight:'bold', fontSize:20, color:'#000'
     },
     astText:{
-      padding:5, color:'#fff',borderRadius: 6, alignSelf: 'flex-start',backgroundColor:'#A9A9A9'
+      padding:5, color:'#fff',borderRadius: 6, alignSelf: 'flex-start',
+      backgroundColor:'#A9A9A9',
+      fontSize:18
     },
     letter:{fontSize:50, fontWeight:'500'},
     answer:{fontSize:35, fontWeight:'500'},
@@ -124,7 +126,7 @@ class Learn extends Component {
                   <Text style={styles.astText}>Complete the assesment</Text>
                 </View>
                 <View style={styles.iconSection}>
-                  <Icon name="assessment" size={50} color="#86DF13" />
+                  {/* <Icon name="assessment" size={50} color="#86DF13" /> */}
                 </View>
               </View>
               <View style={styles.characterSection}>
@@ -139,7 +141,7 @@ class Learn extends Component {
               </View>
               <View style={styles.buttonSection}>
                 <View style={styles.buttonContainer}>
-                  <TouchableOpacity activeOpacity={0.6} style={styles.button} 
+                  <TouchableOpacity activeOpacity={0.2} style={styles.button} 
                       onPressIn = {
                         () => {
                           this.lock = true;
@@ -150,8 +152,8 @@ class Learn extends Component {
                         () => {
                           this.lock = false;
                         }
-                      }>  
-                    <Icon name="refresh" size={60} color="#fff" />
+                      }>
+                    {/* <Icon name="refresh" size={60} color="#fff" /> */}
                   </TouchableOpacity>
                 </View>
               </View>
