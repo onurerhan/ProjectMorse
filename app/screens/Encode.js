@@ -10,8 +10,15 @@ import Torch from 'react-native-torch';
 const styles = StyleSheet.create({
     container: {
       flex: 1,
-      padding:20,
+      alignSelf:'stretch',
       backgroundColor: colors.background,
+    },
+    innerContainer:{
+      flex:1,
+      alignSelf:'stretch',
+      margin: 20,
+      padding:5,
+      backgroundColor:'#FFF'
     },
     optionContainer: {
       flexDirection: 'row',
@@ -19,14 +26,14 @@ const styles = StyleSheet.create({
       marginBottom: 10
     },
     titleContainer: {
-      backgroundColor:"#bdd7a7",
-      padding:10,
       marginBottom:10, 
-      justifyContent:"center"
+      justifyContent:"center",
+      backgroundColor:"#77D400",
+      paddingVertical:10,
+      paddingLeft:8
     },
-    title: {    
-      color: "#212f15",
-      fontSize:16
+    title: {
+      color:colors.activeTintColor, fontWeight:'500', fontSize:17,
     },
     slider: {
       width:150
@@ -70,9 +77,10 @@ class Encode extends Component {
   }
 
   ConvertTextToMorse = () => {
-    return this.state.text.split('')
-                          .map((character) => this.FindMorseOf(character.toUpperCase()))
-                          .join('  ');
+    return this.state
+                .text.split('')
+                .map((character) => this.FindMorseOf(character.toUpperCase()))
+                .join('  ');
     
   }
 
@@ -155,44 +163,45 @@ class Encode extends Component {
 
     return (
         <View style={styles.container}>
-          <View style= {styles.titleContainer}>
-            <Text style={styles.title}>Please toggle an option</Text>
-          </View>
-          <View style={styles.optionContainer}>
-            <Text>Use Flashlight</Text>
-            <CustomSwitch value={this.state.isFlashlight} onValueChange = {(value) => {this.setState({isFlashlight:value})}} />
-          </View>
-          <View style={styles.optionContainer}>
-            <Text>Use Sound</Text>
-            <CustomSwitch value={this.state.isSound} onValueChange = {(value) => {this.setState({isSound:value})}} />
+          <View style={styles.innerContainer}>
+            <View style= {styles.titleContainer}>
+              <Text style={styles.title}>Please toggle an option</Text>
             </View>
-          <View style={styles.optionContainer}>
-            <Text>Use Vibration</Text>
-            <CustomSwitch value={this.state.isVibration} onValueChange = {(value) => {this.setState({isVibration:value})}} />
+            <View style={styles.optionContainer}>
+              <Text>Use Flashlight</Text>
+              <CustomSwitch value={this.state.isFlashlight} onValueChange = {(value) => {this.setState({isFlashlight:value})}} />
             </View>
-          <View style={styles.optionContainer}>
-            <Text>Speed:{this.state.speed} WPM</Text>
-            
-            <Slider style={styles.slider} step={1} 
-                value={this.state.speed}
-                onValueChange={val => this.setState({ speed: val })}
-                minimumValue={1}
-                maximumValue={100}  />
-          </View>
-          <View style = {styles.morseConvertContainer}>
-            <View style={styles.morseTextInput}>
-              <TextInput multiline={true} onChangeText={(text) => this.setState({text})} placeholder="Please enter some text"></TextInput>
+            <View style={styles.optionContainer}>
+              <Text>Use Sound</Text>
+              <CustomSwitch value={this.state.isSound} onValueChange = {(value) => {this.setState({isSound:value})}} />
+              </View>
+            <View style={styles.optionContainer}>
+              <Text>Use Vibration</Text>
+              <CustomSwitch value={this.state.isVibration} onValueChange = {(value) => {this.setState({isVibration:value})}} />
+              </View>
+            <View style={styles.optionContainer}>
+              <Text>Speed:{this.state.speed} WPM</Text>
+              
+              <Slider style={styles.slider} step={1} 
+                  value={this.state.speed}
+                  onValueChange={val => this.setState({ speed: val })}
+                  minimumValue={1}
+                  maximumValue={100}  />
             </View>
-            <View style={{}}>
-              <Button text= "Convert" onPress = {() => {this.Main();}} />
+            <View style = {styles.morseConvertContainer}>
+              <View style={styles.morseTextInput}>
+                <TextInput multiline={true} onChangeText={(text) => this.setState({text})} placeholder="Please enter some text"></TextInput>
+              </View>
+              <View style={{}}>
+                <Button text= "Convert" onPress = {() => {this.Main();}} />
+              </View>
             </View>
-          </View>
+            <View style= {styles.titleContainer}>
+              <Text style={styles.title}>Live Text to Morse</Text>
+              <Text style={styles.liveConvert}>{this.ConvertTextToMorse()}</Text>
+            </View>
 
-          <View style= {styles.titleContainer}>
-            <Text style={styles.title}>Live Text to Morse</Text>
-            <Text style={styles.liveConvert}>{this.ConvertTextToMorse()}</Text>
           </View>
-
         </View>
       );
   }

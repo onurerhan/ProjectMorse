@@ -10,8 +10,15 @@ import Morse from '../config/Morse';
 const styles = StyleSheet.create({
     container: {
       flex: 1,
-      padding: 10,
-      backgroundColor: colors.background,
+      alignSelf:'stretch',
+      backgroundColor: colors.backgroundColor
+    },
+    innerContainer:{
+      flex:1,
+      alignSelf:'stretch',
+      margin: 20,
+      padding:5,
+      backgroundColor:'#FFF'
     },
     pickerContainer:{
       flex:1,
@@ -36,14 +43,14 @@ const styles = StyleSheet.create({
       width:'60%'
     },
     titleContainer: {
-      backgroundColor:"#bdd7a7",
-      padding:10,
       marginBottom:10, 
-      justifyContent:"center"
+      justifyContent:"center",
+      backgroundColor:"#77D400",
+      paddingVertical:10,
+      paddingLeft:8
     },
-    title: {    
-      color: "#212f15",
-      fontSize:16
+    title: {
+      color:colors.activeTintColor, fontWeight:'500', fontSize:17,
     },
     liveConvert: {
       fontSize:17, 
@@ -89,49 +96,43 @@ class Decode extends Component {
         <StatusBar 
           backgroundColor={colors.statusBar}
           barStyle="light-content" />
-        <View style={styles.decode}>
-        <View style= {styles.titleContainer}>
-            <Text style={styles.title}>Morse to Text</Text>
-            <Text style={styles.liveConvert}>{this.ConvertMorseToText()}</Text>
-        </View>
-          <View style={styles.pickerContainer}>
-            <Picker
-              mode="dropdown"
-              style={styles.pickerStyle}
-              selectedValue={this.state.decodeOption}
-              onValueChange={(itemValue, itemIndex) => this.DetectChange(itemValue, itemIndex)}>
-                <Picker.Item label="From string" value="0" />
-                <Picker.Item label="With camera" value="1" />
-                <Picker.Item label="With microphone" value="2" />
-            </Picker>
+        <View style={styles.innerContainer}>
+          <View style={styles.decode}>
+            <View style={styles.pickerContainer}>
+              <Picker
+                mode="dropdown"
+                style={styles.pickerStyle}
+                selectedValue={this.state.decodeOption}
+                onValueChange={(itemValue, itemIndex) => this.DetectChange(itemValue, itemIndex)}>
+                  <Picker.Item label="From string" value="0" />
+                  <Picker.Item label="With camera" value="1" />
+                  <Picker.Item label="With microphone" value="2" />
+              </Picker>
+            </View>
+          </View>
+          <View style={styles.optionContainer}>
+              {
+                this.state.decodeOption == 0 &&
+                <View style={styles.morseTextInput}>
+                  <TextInput multiline={true} onChangeText={(text) => this.setState({text})} placeholder="Please enter some text"></TextInput>
+                </View>
+              }
+              {
+                this.state.decodeOption == 1 &&
+                <Camera
+                  ref={(cam) => {
+                    this.camera = cam;
+                  }}
+                  style={styles.preview}
+                  aspect={Camera.constants.Aspect.fill}>
+                </Camera>
+              }
+              <View style= {styles.titleContainer}>
+                <Text style={styles.title}>Morse to Text</Text>
+                <Text style={styles.liveConvert}>{this.ConvertMorseToText()}</Text>
+              </View>
           </View>
         </View>
-        <View style={styles.optionContainer}>
-          {
-            this.state.decodeOption == 0 &&
-            <View style={styles.morseTextInput}>
-              <TextInput multiline={true} onChangeText={(text) => this.setState({text})} placeholder="Please enter text"></TextInput>
-              <View>
-                <Button style={styles.morseButton} text= "." onPress = {() => this.setState({text: '.'})} />
-                <Button style={styles.morseButton} text= "-" onPress = {() => this.setState({text: '-'})} />
-                <Button style={styles.morseButton} text= "^" onPress = {() => this.setState({text: ' '})} />
-                <Button style={styles.morseButton} text= "clear" onPress = {() => this.setState({text: ''})} />
-              </View>
-            </View>
-          }
-          {
-            this.state.decodeOption == 1 &&
-            <Camera
-              ref={(cam) => {
-                this.camera = cam;
-              }}
-              style={styles.preview}
-              aspect={Camera.constants.Aspect.fill}>
-            </Camera>
-          }
-          
-          
-       </View>
       </View>
     );
   }

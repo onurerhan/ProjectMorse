@@ -4,7 +4,7 @@ import { colors } from '../config/styles';
 import Button from '../components/Button';
 import CustomSwitch from '../components/CustomSwitch';
 import Icon from 'react-native-vector-icons/MaterialIcons';
-
+import I18n from '../../app/config/i18n';
 const styles = StyleSheet.create({
     container: {
       flex: 1,
@@ -17,6 +17,7 @@ const styles = StyleSheet.create({
       flex:1,
       flexDirection:'column',
       backgroundColor:'#FFF',
+      padding:5,
       margin:20
     },
     languageContainer:{
@@ -80,7 +81,7 @@ class Settings extends Component {
     super(props);
 
     this.state = {
-      currentLanguage: 0,
+      currentLanguage: 1,
       isNotification: false,
       isSms: false,
       isEmail: false,
@@ -100,6 +101,13 @@ class Settings extends Component {
 
   LanguageChange(itemValue, itemIndex){
     this.setState({currentLanguage: itemValue});
+    
+    if(itemValue == 0){
+      I18n.locale = "en-US";
+    }else if(itemValue == 1){
+      I18n.locale = "tr";
+    }
+   
   }
 
   OnSmsChanged(){
@@ -162,13 +170,13 @@ class Settings extends Component {
         <View style={styles.innerContainer}>
           <View style={styles.languageContainer}>
             <View style={styles.title}>
-              <Text style={[{color:colors.activeTintColor, fontWeight:'500', fontSize:17}]}>Language</Text>
+              <Text style={[{color:colors.activeTintColor, fontWeight:'500', fontSize:17}]}>{I18n.t('Language')}</Text>
             </View>
 
             <View style={styles.lngInnerContainer}>
               <View style={styles.languageLeftSide}>
                   <Icon name="language" size={30} color="#757575" />
-                  <Text style={styles.languageText}>Language</Text>
+                  <Text style={styles.languageText}>{I18n.t('Language')}</Text>
               </View>
               <View style={styles.languageOption}>
                 <Picker

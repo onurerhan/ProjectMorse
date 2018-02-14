@@ -1,7 +1,7 @@
 import { AppRegistry } from 'react-native';
 
 import React, {Component} from 'react';
-import { Image } from 'react-native';
+import { Image, Text } from 'react-native';
 import { StackNavigator, TabNavigator } from 'react-navigation';
 
 import DecodeScreen from './app/screens/Decode';
@@ -10,11 +10,13 @@ import LearnScreen from './app/screens/Learn';
 import SettingsScreen from './app/screens/Settings';
 import { colors } from './app/config/styles';
 
+import I18n from './app/config/i18n';
+
 const Tabs = TabNavigator({
     EncodeScreen: {
       screen: EncodeScreen,
       navigationOptions: {
-        tabBarLabel: 'Encode',
+        tabBarLabel: I18n.t('Encode')
       },
     },
     DecodeScreen: {
