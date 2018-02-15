@@ -65,9 +65,6 @@ class Decode extends Component {
 
   constructor(props){
     super(props);
-    this.AddDot = this.AddDot.bind(this);
-    this.AddDash = this.AddDash.bind(this);
-    this.AddSpace = this.AddSpace.bind(this);
     this.state = {
       decodeOption: 0,
       text: ""
@@ -88,21 +85,9 @@ class Decode extends Component {
     this.setState({decodeOption: itemValue});
   }
 
-  AddDot(){
+  AddCharacter(input){
     var hold = this.state.text;
-    var output = hold + ".";
-    this.setState({text: output});
-  }
-
-  AddDash(){
-    var hold = this.state.text;
-    var output = hold + "-";
-    this.setState({text: output});
-  }
-
-  AddSpace(){
-    var hold = this.state.text;
-    var output = hold + " ";
+    var output = hold + input; 
     this.setState({text: output});
   }
 // not working otherwise need to find better fix
@@ -133,11 +118,11 @@ class Decode extends Component {
                 <View style={styles.morseTextInput}>
                   <TextInput value={this.state.text} ref={'textInput1'} multiline={true} onChangeText={(text) => this.setState({text})} placeholder="Please enter some text"></TextInput>
                   <View>
-                    <Button text= "." onPress = {this.AddDot} />
-                    <Button text= "-" onPress = {this.AddDash} />
-                    <Button text= "^" onPress = {this.AddSpace} />
+                    <Button text= "." onPress = {() => {this.AddCharacter('.')}} />
+                    <Button text= "-" onPress = {() => {this.AddCharacter('-')}} />
+                    <Button text= "^" onPress = {() => {this.AddCharacter(' ')}} />
                     <Button text= "clear" onPress = {() => this.setState({text: ''})} />
-                  </View>
+                  </View> 
                 </View>
               }
               {
