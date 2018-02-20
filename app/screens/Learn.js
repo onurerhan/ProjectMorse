@@ -115,7 +115,7 @@ class Learn extends Component {
   async getSpace(counter){
     var morseofbutton = "";
     await wait(500);
-    if(this.state.lock[counter] == false){
+    if(this.state.lock[counter] == false && this.state.lock[counter + 1] == null){
       morseofbutton += " ";
     }
     this.setState({morse:this.state.morse + morseofbutton});
@@ -162,8 +162,8 @@ class Learn extends Component {
                       onPressOut = {
                         () => {
                           this.state.lock[this.state.counter] = false;
-                          this.state.counter += 1;
                           this.getSpace(this.state.counter);
+                          this.state.counter += 1;
                         }
                       }>
                     {/* <Icon name="refresh" size={60} color="#fff" /> */}
