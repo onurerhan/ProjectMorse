@@ -80,10 +80,8 @@ class Learn extends Component {
     this.state = {
       morse: "",
       text: "",
-      dot: false,
-      dash: false,
-      blank:false,
-      lock: false,
+      counter: 0,
+      lock: [],
       wpm: 20
     }
   }
@@ -100,27 +98,27 @@ class Learn extends Component {
   PrintMorse = () => {
     return this.morse;
   }
-  async getMorse(){
-    var morseofbutton = this.state.morse;
+  async getMorse(counter){
+    var morseofbutton = "";
     await wait(100);
-    if(this.lock == false){
+    if(this.state.lock[counter] == false){
       morseofbutton += ".";
     } else{
       await wait(600);
-      if(this.lock == false){
+      if(this.state.lock[counter] == false){
         morseofbutton += "-";
       }
     }
-    this.setState({morse:morseofbutton});
+    this.setState({morse:this.state.morse + morseofbutton});
   }
 
-  async getSpace(){
-    var morseofbutton = this.state.morse;
+  async getSpace(counter){
+    var morseofbutton = "";
     await wait(500);
-    if(this.lock == false){
+    if(this.state.lock[counter] == false){
       morseofbutton += " ";
     }
-    this.setState({morse:morseofbutton});
+    this.setState({morse:this.state.morse + morseofbutton});
   }
 
   render() {
@@ -156,14 +154,16 @@ class Learn extends Component {
                   <TouchableOpacity activeOpacity={0.2} style={styles.button} 
                       onPressIn = {
                         () => {
-                          this.lock = true;
-                          this.getMorse();
+                          this.state.lock[this.state.counter] = true;
+                          
+                          this.getMorse(this.state.counter);
                         }
                       } 
                       onPressOut = {
                         () => {
-                          this.lock = false;
-                          //this.getSpace();
+                          this.state.lock[this.state.counter] = false;
+                          this.state.counter += 1;
+                          this.getSpace(this.state.counter);
                         }
                       }>
                     {/* <Icon name="refresh" size={60} color="#fff" /> */}
