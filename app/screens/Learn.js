@@ -93,7 +93,7 @@ class Learn extends Component {
       level_completion: 0,
       sub_level_completion: 0,
       complete_progress: 0,
-      try_number: 3,
+      try_number: 2,
     }
   }
 //level 1: tek harf
@@ -132,15 +132,15 @@ class Learn extends Component {
       await wait(1000);
       this.clearWindow();
       this.state.sub_level_completion += 1;
+      if (this.state.sub_level_completion == this.state.try_number){
+        this.state.sub_level_completion = 0;
+        this.state.sub_level += 1;
+        this.state.complete_progress = this.state.sub_level / this.state.level1.length * 100;
+        console.warn("Next Level: " + this.state.level1[this.state.sub_level]);
+      }
       if(this.state.sub_level_completion == this.state.level1.length){
         this.state.level += 1;
       }
-      return 0;
-    } else if (this.state.sub_level_completion == this.state.try_number){
-      this.state.sub_level_completion = 0;
-      this.state.sub_level += 1;
-      this.state.complete_progress = this.state.sub_level / this.state.level1.length * 100;
-      console.warn("Next Level: " + this.state.level1[this.state.sub_level]);
       return 0;
     }
     console.warn("Wrong");
