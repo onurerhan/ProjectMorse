@@ -1,17 +1,20 @@
 import React, {Component} from 'react';
-import { StyleSheet, Text, View,ScrollView, Picker, CheckBox, Slider} from 'react-native';
+import { StyleSheet, Text, View, ScrollView, Picker, CheckBox, Slider, AsyncStorage} from 'react-native';
 import { colors } from '../config/styles';
 import Button from '../components/Button';
 import CustomSwitch from '../components/CustomSwitch';
 import Icon from 'react-native-vector-icons/MaterialIcons';
+import * as CONST from '../config/Constants'
 import I18n from '../../app/config/i18n';
+
 const styles = StyleSheet.create({
     container: {
       flex: 1,
       backgroundColor: colors.backgroundColor,
     },
     directionRow: {
-      flexDirection:'row'
+      flexDirection:'row',
+      
     },
     innerContainer:{
       flex:1,
@@ -80,8 +83,9 @@ class Settings extends Component {
   constructor(props){
     super(props);
 
-    this.state = {
-      currentLanguage: 0,
+
+     this.state = {
+      currentLanguage: '1',
       isNotification: false,
       isSms: false,
       isEmail: false,
@@ -94,6 +98,18 @@ class Settings extends Component {
 
   }
 
+  async componentDidMount(){
+    this.setState({currentLanguage: await this.getLanguageData()});
+  }
+
+  async getLanguageData(){
+
+   let a = await this.getData('_LANGUAGE').then((s) => {
+    if(s == 'tr') return "1"; else return "0";
+   });
+   return a;
+
+  }
 
   NotificationStateControl(val){
     if(val) this.setState({isNotification: true}); return 0;
@@ -101,13 +117,33 @@ class Settings extends Component {
 
   LanguageChange(itemValue, itemIndex){
     this.setState({currentLanguage: itemValue});
-    
     if(itemValue == 0){
-      I18n.locale = "en-US";
+   //   I18n.locale = "en-US";
+      this.saveData('_LANGUAGE', 'en')
     }else if(itemValue == 1){
-      I18n.locale = "tr";
+      this.saveData('_LANGUAGE', 'tr')
     }
    
+  }
+
+  async getData(key){
+    try {
+      let value = await AsyncStorage.getItem(key);
+      if (value !== null){
+        return value;
+      }
+    } catch (error) {
+      console.warn(error);
+      // Error retrieving data
+    }
+  }
+
+  async saveData(key, value) {
+    try {
+      await AsyncStorage.setItem(key, value);
+    } catch (error) {
+      // Error saving data
+    }  
   }
 
   OnSmsChanged(){
@@ -186,8 +222,6 @@ class Settings extends Component {
                     onValueChange={(itemValue, itemIndex) => this.LanguageChange(itemValue, itemIndex)}>
                       <Picker.Item label="English" value="0" />
                       <Picker.Item label="Türkçe"  value="1" />
-                      <Picker.Item label="Deutsch" value="2" />
-                      <Picker.Item label="Polskie" value="3" />
                   </Picker>
               </View>
             </View>
