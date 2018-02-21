@@ -10,9 +10,6 @@ export const _USE_MAIL = false;
 export const _USE_CALL = false;
 export const _USE_FLASHLIGHT = false;
 
-/** Translation variables */
+/** Translation variable */
 
-export const _TR = false;
-export const _EN = true;
-export const _GERMAN = false;
-export const _PL = false;
+export const _LANGUAGE =  'tr';

@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import { StyleSheet, Text, View, StatusBar,TextInput, 
-        Picker  } from 'react-native';
-
+        Picker } from 'react-native';
+        
 import { colors } from '../config/styles';
 import Button from '../components/Button';
 import Camera from 'react-native-camera';
@@ -25,6 +25,7 @@ const styles = StyleSheet.create({
       alignItems:'flex-end'
     },
     optionContainer: {
+      flex:1
     },
     main: {
       fontSize: 20,
@@ -115,13 +116,13 @@ class Decode extends Component {
           <View style={styles.optionContainer}>
               {
                 this.state.decodeOption == 0 &&
-                <View style={styles.morseTextInput}>
+                <View style={{}}>
                   <TextInput value={this.state.text} ref={'textInput1'} multiline={true} onChangeText={(text) => this.setState({text})} placeholder="Please enter some text"></TextInput>
-                  <View>
-                    <Button text= "." onPress = {() => {this.AddCharacter('.')}} />
-                    <Button text= "-" onPress = {() => {this.AddCharacter('-')}} />
-                    <Button text= "^" onPress = {() => {this.AddCharacter(' ')}} />
-                    <Button text= "clear" onPress = {() => this.setState({text: ''})} />
+                  <View style={{flexDirection:'row', justifyContent:'space-between'}}>
+                    <Button style={[this.props.style]} width text= "." onPress = {() => {this.AddCharacter('.')}} />
+                    <Button text= "-" width onPress = {() => {this.AddCharacter('-')}} />
+                    <Button text= "^" width onPress = {() => {this.AddCharacter(' ')}} />
+                    <Button text= "Clear" width onPress = {() => this.setState({text: ''})} />
                   </View> 
                 </View>
               }

@@ -1,12 +1,13 @@
 import React, {Component} from 'react';
-import { StyleSheet, Text, View, Slider, TextInput, Vibration } from 'react-native';
+import { StyleSheet, Text, View, Slider, TextInput, Vibration, AsyncStorage } from 'react-native';
 import { colors } from '../config/styles';
 import Button from '../components/Button';
 import CustomSwitch from '../components/CustomSwitch';
+import * as CONST from '../config/Constants'
 import Morse from '../config/Morse';
 import Sound from 'react-native-sound';
 import Torch from 'react-native-torch';
-import tr from '../config/tr';
+import I18n from '../../app/config/i18n';
 
 const styles = StyleSheet.create({
     container: {
@@ -20,6 +21,10 @@ const styles = StyleSheet.create({
       margin: 20,
       padding:5,
       backgroundColor:'#FFF'
+    },
+    textInputMorse:{
+      height:104, textAlignVertical:'top',
+      fontSize:18
     },
     optionContainer: {
       flexDirection: 'row',
@@ -57,13 +62,35 @@ const wait = ms => new Promise(resolve => setTimeout(resolve, ms));
 var whoosh;
 
 class Encode extends Component {
-  componentDidMount(){
-    whoosh = new Sound('hz.mp3', Sound.MAIN_BUNDLE, (error) => {
-     
+
+  async getData(){
+    try {
+      let value = await AsyncStorage.getItem('_LANGUAGE');
+      if (value !== null){
+        return value;
+      }
+    } catch (error) {
+      console.warn(error);
+      // Error retrieving data
+    }
+  };
+
+  async getLanguageData(){
+
+    let a = await this.getData().then((s) => {
+      if(s == 'tr') return "tr"; else return "en-US";
     });
 
-  }
+    return a;
+   }
+
   
+   async componentWillUnmount(){
+    whoosh = new Sound('hz.mp3', Sound.MAIN_BUNDLE, (error) => {});
+    I18n.locale = await this.getLanguageData();
+  }
+
+
   constructor(props){
     super(props);
 
@@ -125,6 +152,8 @@ class Encode extends Component {
       await wait(unit_time);
       }  
   }
+
+
   async Audio(){
     
     var user_input = this.ConvertTextToMorse();
@@ -149,6 +178,8 @@ class Encode extends Component {
       await wait(unit_time);
     }  
   }
+
+
   Vibrate = () => {
     var user_input = this.ConvertTextToMorse();
     var vibration_time = [0];
@@ -182,7 +213,7 @@ class Encode extends Component {
         <View style={styles.container}>
           <View style={styles.innerContainer}>
             <View style= {styles.titleContainer}>
-              <Text style={styles.title}>Please toggle an option</Text>
+              <Text style={styles.title}>{I18n.t('Language')}</Text>
             </View>
             <View style={styles.optionContainer}>
               <Text>Use Flashlight</Text>
@@ -205,20 +236,19 @@ class Encode extends Component {
                   minimumValue={1}
                   maximumValue={20}  />
             </View>
+
             <View style = {styles.morseConvertContainer}>
               <View style={styles.morseTextInput}>
-                <TextInput multiline={true} onChangeText={(text) => this.setState({text})} placeholder="Please enter some text"></TextInput>
+                <TextInput style={styles.textInputMorse} multiline={true} onChangeText={(text) => this.setState({text})} placeholder="Please enter some text"></TextInput>
               </View>
               <View style={{}}>
-                <Button text= "Convert" onPress = {() => {this.Main();}} />
+                <Button style={{}} text= "Convert" onPress = {() => {this.Main();}} />
+                <Button text= "Stop" onPress = {() => {this.Stop_morse();}} />
               </View>
             </View>
             <View style= {styles.titleContainer}>
               <Text style={styles.title}>Live Text to Morse</Text>
               <Text style={styles.liveConvert}>{this.ConvertTextToMorse()}</Text>
-              <View style={{}}>
-                <Button text= "Stop" onPress = {() => {this.Stop_morse();}} />
-              </View>
             </View>
 
           </View>
