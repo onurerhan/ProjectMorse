@@ -1,4 +1,4 @@
-import { AppRegistry } from 'react-native';
+import { AppRegistry, AsyncStorage } from 'react-native';
 
 import React, {Component} from 'react';
 import { Image, Text } from 'react-native';
@@ -11,6 +11,7 @@ import SettingsScreen from './app/screens/Settings';
 import { colors } from './app/config/styles';
 
 import I18n from './app/config/i18n';
+
 
 const Tabs = TabNavigator({
     EncodeScreen: {
