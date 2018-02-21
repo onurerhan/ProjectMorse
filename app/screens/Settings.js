@@ -81,7 +81,7 @@ class Settings extends Component {
     super(props);
 
     this.state = {
-      currentLanguage: 1,
+      currentLanguage: 0,
       isNotification: false,
       isSms: false,
       isEmail: false,
