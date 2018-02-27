@@ -2,5 +2,27 @@
 export default {  
     ToggleOption: 'Please toggle an option',
     Encode: 'ENCODE',
-    Language: 'Language'
+    Decode: "DECODE",
+    Learn: "LEARN",
+    Settings: "SETTINGS",
+    Language: 'Language',
+    UseFlash: "Use Flashlight",
+    UseSound: "Use Sound",
+    UseVib: "Use Vibration",
+    Speed: "Speed",
+    TextPlaceholder: "Please enter some text",
+    Convert: "Convert",
+    Stop: "Stop",
+    LiveTextMorse: "Live Text to Morse",
+    Clear: "Clear",
+    MorseToText: "Morse to Text",
+    FromString: "From string",
+    WithCamera: "With camera",
+    WithMic: "With microphone",
+    LearnTitle: "Learn using Koch method",
+    Complete: "Complete the assesment",
+    Notification: "Notification",
+    SmsNot: "SMS Notification",
+    EmailNot: "Email Notification",
+    LangChange: "It's going to activate at the next start."
 };

@@ -1,11 +1,14 @@
 import React, {Component} from 'react';
-import { StyleSheet, Text, View, StatusBar,TextInput, 
+import { StyleSheet, Text, View, StatusBar,TextInput, AsyncStorage,
         Picker } from 'react-native';
         
 import { colors } from '../config/styles';
 import Button from '../components/Button';
 import Camera from 'react-native-camera';
 import Morse from '../config/Morse';
+import I18n from 'react-native-i18n';
+import en from '../../app/config/en-US';
+import tr from '../../app/config/tr';
 
 const styles = StyleSheet.create({
     container: {
@@ -64,11 +67,52 @@ const styles = StyleSheet.create({
 
 class Decode extends Component {
 
+  static navigationOptions  = () => ({
+    tabBarLabel:  I18n.t('Decode')
+  });
+
+  async GetAsyncStorageData(key){
+    try {
+      let value = await AsyncStorage.getItem(key);
+      if (value !== null){
+        return value;
+      }
+    } catch (error) {
+      console.warn(error);
+      // Error retrieving data
+    }
+  }
+
+  async GetLanguageData(){
+
+    let a = await this.GetAsyncStorageData('_LANGUAGE').then((s) => {
+     if(s == 'tr') return "1"; else return "0";
+    });
+    return a;
+   }
+
+
+  fetchLanguage = async() => {
+    try {
+      const res = await this.GetLanguageData();
+      this.setState({lang:res});
+    } catch (e) {
+
+    } 
+  }
+
+  componentWillMount(){
+    this.fetchLanguage();
+    
+  }
+
+
   constructor(props){
     super(props);
     this.state = {
       decodeOption: 0,
-      text: ""
+      text: "",
+      lang:""
     }
     
   }
@@ -107,9 +151,9 @@ class Decode extends Component {
                 style={styles.pickerStyle}
                 selectedValue={this.state.decodeOption}
                 onValueChange={(itemValue, itemIndex) => this.DetectChange(itemValue, itemIndex)}>
-                  <Picker.Item label="From string" value="0" />
-                  <Picker.Item label="With camera" value="1" />
-                  <Picker.Item label="With microphone" value="2" />
+                  <Picker.Item label= {I18n.t('FromString')} value="0" />
+                  <Picker.Item label= {I18n.t('WithCamera')}  value="1" />
+                  <Picker.Item label= {I18n.t('WithMic')} value="2" />
               </Picker>
             </View>
           </View>
@@ -117,12 +161,12 @@ class Decode extends Component {
               {
                 this.state.decodeOption == 0 &&
                 <View style={{}}>
-                  <TextInput value={this.state.text} ref={'textInput1'} multiline={true} onChangeText={(text) => this.setState({text})} placeholder="Please enter some text"></TextInput>
+                  <TextInput value={this.state.text} ref={'textInput1'} multiline={true} onChangeText={(text) => this.setState({text})} placeholder={I18n.t('TextPlaceholder')}></TextInput>
                   <View style={{flexDirection:'row', justifyContent:'space-between'}}>
                     <Button style={[this.props.style]} width text= "." onPress = {() => {this.AddCharacter('.')}} />
                     <Button text= "-" width onPress = {() => {this.AddCharacter('-')}} />
                     <Button text= "^" width onPress = {() => {this.AddCharacter(' ')}} />
-                    <Button text= "Clear" width onPress = {() => this.setState({text: ''})} />
+                    <Button text= {I18n.t('Clear')}  width onPress = {() => this.setState({text: ''})} />
                   </View> 
                 </View>
               }
@@ -137,7 +181,7 @@ class Decode extends Component {
                 </Camera>
               }
               <View style= {styles.titleContainer}>
-                <Text style={styles.title}>Morse to Text</Text>
+                <Text style={styles.title}>{I18n.t('MorseToText')} </Text>
                 <Text style={styles.liveConvert}>{this.ConvertMorseToText()}</Text>
               </View>
               

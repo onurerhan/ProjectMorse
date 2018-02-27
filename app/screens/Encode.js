@@ -7,7 +7,9 @@ import * as CONST from '../config/Constants'
 import Morse from '../config/Morse';
 import Sound from 'react-native-sound';
 import Torch from 'react-native-torch';
-import I18n from '../../app/config/i18n';
+import I18n from 'react-native-i18n';
+import en from '../../app/config/en-US';
+import tr from '../../app/config/tr';
 
 const styles = StyleSheet.create({
     container: {
@@ -63,9 +65,14 @@ var whoosh;
 
 class Encode extends Component {
 
-  async getData(){
+  static navigationOptions  = () => ({
+    tabBarLabel:  I18n.t('Encode')
+  });
+
+  
+  async GetAsyncStorageData(key){
     try {
-      let value = await AsyncStorage.getItem('_LANGUAGE');
+      let value = await AsyncStorage.getItem(key);
       if (value !== null){
         return value;
       }
@@ -73,21 +80,34 @@ class Encode extends Component {
       console.warn(error);
       // Error retrieving data
     }
-  };
+  }
 
-  async getLanguageData(){
+  async GetLanguageData(){
 
-    let a = await this.getData().then((s) => {
-      if(s == 'tr') return "tr"; else return "en-US";
+    let a = await this.GetAsyncStorageData('_LANGUAGE').then((s) => {
+     if(s == 'tr') return "1"; else return "0";
     });
-
     return a;
    }
 
-  
-   async componentWillUnmount(){
+
+  fetchLanguage = async() => {
+    try {
+      const res = await this.GetLanguageData();
+      this.setState({lang:res});
+    } catch (e) {
+
+    } 
+  }
+
+  componentWillMount(){
+    this.fetchLanguage();
+    
+  }
+
+  componentDidMount(){
+
     whoosh = new Sound('hz.mp3', Sound.MAIN_BUNDLE, (error) => {});
-    I18n.locale = await this.getLanguageData();
   }
 
 
@@ -100,7 +120,8 @@ class Encode extends Component {
       isVibration: true,
       stopToggle: false,
       speed: 5,
-      text: ""
+      text: "",
+      lang:""
     }
 
   }
@@ -213,22 +234,22 @@ class Encode extends Component {
         <View style={styles.container}>
           <View style={styles.innerContainer}>
             <View style= {styles.titleContainer}>
-              <Text style={styles.title}>{I18n.t('Language')}</Text>
+              <Text style={styles.title}>{I18n.t('Settings')}</Text>
             </View>
             <View style={styles.optionContainer}>
-              <Text>Use Flashlight</Text>
+              <Text>{I18n.t('UseFlash')}</Text>
               <CustomSwitch value={this.state.isFlashlight} onValueChange = {(value) => {this.setState({isFlashlight:value})}} />
             </View>
             <View style={styles.optionContainer}>
-              <Text>Use Sound</Text>
+              <Text>{I18n.t('UseSound')}</Text>
               <CustomSwitch value={this.state.isSound} onValueChange = {(value) => {this.setState({isSound:value})}} />
               </View>
             <View style={styles.optionContainer}>
-              <Text>Use Vibration</Text>
+              <Text>{I18n.t('UseVib')}</Text>
               <CustomSwitch value={this.state.isVibration} onValueChange = {(value) => {this.setState({isVibration:value})}} />
               </View>
             <View style={styles.optionContainer}>
-              <Text>Speed:{this.state.speed} WPM</Text>
+              <Text>{I18n.t('Speed')}:{this.state.speed} WPM</Text>
               
               <Slider style={styles.slider} step={1} 
                   value={this.state.speed}
@@ -239,15 +260,15 @@ class Encode extends Component {
 
             <View style = {styles.morseConvertContainer}>
               <View style={styles.morseTextInput}>
-                <TextInput style={styles.textInputMorse} multiline={true} onChangeText={(text) => this.setState({text})} placeholder="Please enter some text"></TextInput>
+                <TextInput style={styles.textInputMorse} multiline={true} onChangeText={(text) => this.setState({text})} placeholder={I18n.t('TextPlaceholder')}></TextInput>
               </View>
               <View style={{}}>
-                <Button style={{}} text= "Convert" onPress = {() => {this.Main();}} />
-                <Button text= "Stop" onPress = {() => {this.Stop_morse();}} />
+                <Button style={{}} text= {I18n.t('Convert')} onPress = {() => {this.Main();}} />
+                <Button text= {I18n.t('Stop')} onPress = {() => {this.Stop_morse();}} />
               </View>
             </View>
             <View style= {styles.titleContainer}>
-              <Text style={styles.title}>Live Text to Morse</Text>
+              <Text style={styles.title}>{I18n.t('LiveTextMorse')}</Text>
               <Text style={styles.liveConvert}>{this.ConvertTextToMorse()}</Text>
             </View>
 

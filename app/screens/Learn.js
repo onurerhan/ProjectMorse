@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import { StyleSheet, Text, View, TouchableOpacity } from 'react-native';
+import { StyleSheet, Text, View, TouchableOpacity, AsyncStorage} from 'react-native';
 import { colors } from '../config/styles';
 import Button from '../components/Button';
 import Icon from 'react-native-vector-icons/MaterialIcons';
@@ -75,6 +75,45 @@ const wait = ms => new Promise(resolve => setTimeout(resolve, ms));
 
 class Learn extends Component {
 
+  static navigationOptions  = () => ({
+    tabBarLabel:  I18n.t('Learn')
+  });
+
+  async GetAsyncStorageData(key){
+    try {
+      let value = await AsyncStorage.getItem(key);
+      if (value !== null){
+        return value;
+      }
+    } catch (error) {
+      console.warn(error);
+      // Error retrieving data
+    }
+  }
+
+  async GetLanguageData(){
+
+    let a = await this.GetAsyncStorageData('_LANGUAGE').then((s) => {
+     if(s == 'tr') return "1"; else return "0";
+    });
+    return a;
+   }
+
+
+  fetchLanguage = async() => {
+    try {
+      const res = await this.GetLanguageData();
+      this.setState({lang:res});
+    } catch (e) {
+
+    } 
+  }
+
+  componentWillMount(){
+    this.fetchLanguage();
+  }
+
+
   constructor(props){
     super(props);
     this.state = {
@@ -129,8 +168,8 @@ class Learn extends Component {
             
               <View style={styles.header}>
                 <View style={styles.textSection}>
-                  <Text style={styles.learnText}>Learn using Koch Method</Text>
-                  <Text style={styles.astText}>Complete the assesment</Text>
+                  <Text style={styles.learnText}>{I18n.t('LearnTitle')}</Text>
+                  <Text style={styles.astText}>{I18n.t('Complete')}</Text>
                 </View>
                 <View style={styles.iconSection}>
                   {/* <Icon name="assessment" size={50} color="#86DF13" /> */}
