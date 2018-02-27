@@ -1,6 +1,28 @@
 
 export default {  
     ToggleOption: 'Lütfen bir seçenek giriniz',
-    Encode: 'ÇÖZ',
-    Language: 'Dil'
+    Encode: 'KODLA',
+    Decode: "ÇÖZ",
+    Learn: "ÖĞREN",
+    Settings: "AYARLAR",
+    Language: 'Dil',
+    UseFlash: "Flash Kullan",
+    UseSound: "Ses Kullan",
+    UseVib: "Titreşim Kullan",
+    Speed: "Hız",
+    TextPlaceholder: "Lütfen metin giriniz",
+    Convert: "Çevir",
+    Stop: "Dur",
+    LiveTextMorse: "Gerçek Zamanlı Mors Kodu",
+    Clear: "Temizle",
+    MorseToText: "Metin Karşılğı",
+    FromString: "Metinden",
+    WithCamera: "Kamera ile",
+    WithMic: "Mikrofon ile",
+    LearnTitle: "Koch Metodu ile öğren",
+    Complete: "Alıştırmaları tamamla",
+    Notification: "Bildirim",
+    SmsNot: "SMS Bildirimleri",
+    EmailNot: "Email Bildirimleri",
+    LangChange: "Dil ayarınız kayıt edilmiştir. Bir sonraki açılışta gerçekleşecektir."
 };

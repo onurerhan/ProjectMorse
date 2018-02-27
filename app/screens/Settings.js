@@ -1,11 +1,15 @@
 import React, {Component} from 'react';
-import { StyleSheet, Text, View, ScrollView, Picker, CheckBox, Slider, AsyncStorage} from 'react-native';
+import { StyleSheet, Text, View, ScrollView, Picker, CheckBox, 
+  Slider, AsyncStorage,ToastAndroid} from 'react-native';
+
 import { colors } from '../config/styles';
 import Button from '../components/Button';
 import CustomSwitch from '../components/CustomSwitch';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import * as CONST from '../config/Constants'
-import I18n from '../../app/config/i18n';
+import I18n from 'react-native-i18n';
+import en from '../../app/config/en-US';
+import tr from '../../app/config/tr';
 
 const styles = StyleSheet.create({
     container: {
@@ -80,6 +84,12 @@ const styles = StyleSheet.create({
 
 class Settings extends Component {
 
+
+  static navigationOptions  = () => ({
+    tabBarLabel:  I18n.t('Settings')
+  });
+
+
   constructor(props){
     super(props);
 
@@ -118,11 +128,12 @@ class Settings extends Component {
   LanguageChange(itemValue, itemIndex){
     this.setState({currentLanguage: itemValue});
     if(itemValue == 0){
-   //   I18n.locale = "en-US";
       this.saveData('_LANGUAGE', 'en')
     }else if(itemValue == 1){
       this.saveData('_LANGUAGE', 'tr')
     }
+
+    ToastAndroid.show(I18n.t('LangChange'), ToastAndroid.LONG);
    
   }
 
@@ -231,28 +242,28 @@ class Settings extends Component {
           <View style={styles.notificationContainer}>
             <View style={styles.notifHeader}>
                 <View style={styles.title}>
-                  <Text style={{color:colors.activeTintColor, fontWeight:'500', fontSize:17}}>Notification</Text>
+                  <Text style={{color:colors.activeTintColor, fontWeight:'500', fontSize:17}}>{I18n.t('Notification')}</Text>
                 </View>
                 <CustomSwitch value={this.state.isNotification} onValueChange = {(value) => this.Notifications(value)} />
             </View>
             <View style={styles.option}>
                 <View style={styles.directionRow}>
                   <Icon name="textsms" size={30} color="#757575" />
-                  <Text style={styles.optionText}>Sms Notifications</Text>
+                  <Text style={styles.optionText}>{I18n.t('SmsNot')}</Text>
                 </View>
                 <CheckBox value={this.state.isSms} onChange={() => this.OnSmsChanged()} ></CheckBox>
             </View>
             <View style={styles.option}>
               <View style={styles.directionRow}>
                 <Icon name="email" size={30} color="#757575" />
-                <Text style={styles.optionText}>Email Notifications</Text>
+                <Text style={styles.optionText}>{I18n.t('EmailNot')}</Text>
               </View>
               <CheckBox value={this.state.isEmail} onChange={() => this.OnEmailChanged()}></CheckBox>
             </View>
             <View style={styles.option}>
               <View style={styles.directionRow}>
                 <Icon name="show-chart" size={30} color="#757575" />
-                <Text style={styles.optionText}>Speed {this.state.speed} WPM</Text>
+                <Text style={styles.optionText}>{I18n.t('Speed')} {this.state.speed} WPM</Text>
                 </View>
                 <Slider style={styles.slider} step={1} 
                   value={this.state.speed}
@@ -263,21 +274,21 @@ class Settings extends Component {
             <View style={styles.option}>
               <View style={styles.directionRow}>
                 <Icon name="vibration" size={30} color="#757575" />
-                <Text style={styles.optionText}>Use Vibration</Text>
+                <Text style={styles.optionText}>{I18n.t('UseVib')}</Text>
               </View>
                 <CheckBox value={this.state.isVibration} onChange={() => this.OnVibrationChanged()}></CheckBox>
             </View>
             <View style={styles.option}>
               <View style={styles.directionRow}>
                 <Icon name="flash-on" size={30} color="#757575" />
-                <Text style={styles.optionText}>Use Flashlight</Text>
+                <Text style={styles.optionText}>{I18n.t('UseFlash')}</Text>
               </View>
                 <CheckBox value={this.state.isFlashlight} onChange={() => this.OnFlashlightChanged()}></CheckBox>
             </View>
             <View style={styles.option}>
               <View style={styles.directionRow}>
                 <Icon name="surround-sound" size={30} color="#757575" />
-                <Text style={styles.optionText}>Use Sound</Text>
+                <Text style={styles.optionText}>{I18n.t('UseSound')}</Text>
               </View>
                 <CheckBox value={this.state.isSound} onChange={() => this.OnSoundChanged()}></CheckBox>
             </View>
