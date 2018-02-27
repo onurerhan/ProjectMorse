@@ -242,13 +242,8 @@ class Learn extends Component {
             <View style={styles.content}>
               <View style={styles.header}>
                 <View style={styles.textSection}>
-<<<<<<< HEAD
-                  <Text style={styles.learnText}>Chapter {this.state.level}</Text>
-                  <Text style={styles.astText}>Completed {this.state.complete_progress}%</Text>
-=======
-                  <Text style={styles.learnText}>{I18n.t('LearnTitle')}</Text>
-                  <Text style={styles.astText}>{I18n.t('Complete')}</Text>
->>>>>>> 88651331f9c47b7d6a977c56acba1d0d785b0ab6
+                  <Text style={styles.learnText}>{I18n.t('LearnTitle')}: {this.state.level}</Text>
+                  <Text style={styles.astText}>{I18n.t('Complete')}: {this.state.complete_progress}%</Text>
                 </View>
                 <View style={styles.iconSection}>
                   {/* <Icon name="assessment" size={50} color="#86DF13" /> */}
