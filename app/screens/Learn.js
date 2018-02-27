@@ -124,21 +124,16 @@ class Learn extends Component {
       counter: 0,
       lock: [],
       wpm: 20,
-      level: 1,
-      level1: ["A","B","C","D","E","F","G","H","I","J","K","L","M","N","O","P","Q","R","S","T","U","V","W","X","Y","Z"],
-      level2: ["SOS","SMS","HI"],
-      level3: ["HELLO WORLD","HELP ME","I AM STUCK","INSIDE THE PHONE"],
+      level: 0,
+      game: [["A","B","C","D","E","F","G","H","I","J","K","L","M","N","O","P","Q","R","S","T","U","V","W","X","Y","Z"],["SOS","SMS","HI"],["HELLO WORLD","HELP ME","I AM STUCK","INSIDE THE PHONE"]],
       sub_level: 0,
       level_completion: 0,
       sub_level_completion: 0,
       complete_progress: 0,
-      try_number: 2,
+      try_number: 3,
     }
   }
-//level 1: tek harf
-//level 2: 2-3 harf
-//level 3: kelimeler
-//level 3: cümleler
+
   async ConvertMorseToText(){
     var userinput = this.state.morse.split(" ");
     var textoutput = "";
@@ -146,7 +141,7 @@ class Learn extends Component {
       textoutput += Object.keys(Morse).find(key => Morse[key] === userinput[n]);
     }
     this.setState({text: textoutput});
-    this.GameFunc();
+    this.Game();
   }
 
   async clearWindow(){
@@ -154,70 +149,48 @@ class Learn extends Component {
     this.setState({morse: ""});
   }
 
-  async GameFunc(){
-    if(this.state.level == 1){
-      this.Level1();
-    } else if(this.state.level == 2){
-      this.Level2();
-    } else if(this.state.level == 3){
-      this.Level3();
-    }
-    
-  }
 
-  async Level1(){
-
-    if (this.state.level1[this.state.sub_level] == this.state.text[0] && this.state.sub_level_completion < this.state.try_number){
+  async Game(){
+    if (this.state.game[this.state.level][this.state.sub_level] == this.state.text && this.state.sub_level_completion < this.state.try_number){
       await wait(1000);
       this.clearWindow();
       this.state.sub_level_completion += 1;
       if (this.state.sub_level_completion == this.state.try_number){
         this.state.sub_level_completion = 0;
         this.state.sub_level += 1;
-        this.state.complete_progress = this.state.sub_level / this.state.level1.length * 100;
-        console.warn("Next Level: " + this.state.level1[this.state.sub_level]);
+        var floor = Math.floor;
+        this.state.complete_progress = floor(this.state.sub_level / this.state.game[this.state.level].length * 100);
+        this.Hint();
       }
-      if(this.state.sub_level_completion == this.state.level1.length){
+      if(this.state.sub_level_completion == this.state.game[this.state.level].length){
         this.state.level += 1;
+        this.state.sub_level = 0;
       }
       return 0;
     }
-    console.warn("Wrong");
-    await wait(1000);
-    this.clearWindow();
-  }
-
-  async Level2(){
-
-    console.warn("Wrong");
-    await wait(1000);
-    this.clearWindow();
-  }
-
-  async Level3(){
-
-    console.warn("Wrong");
     await wait(1000);
     this.clearWindow();
   }
 
   async Hint(){
-    if(this.state.level == 1){
-      this.Level1();
-    } else if(this.state.level == 2){
-      this.Level2();
-    } else if(this.state.level == 3){
-      this.Level3();
-    }
+    this.setState({hint:this.state.game[this.state.level][this.state.sub_level] + ": " + this.state.game[this.state.level][this.state.sub_level].split('')
+    .map((character) => this.FindMorseOf(character.toUpperCase()))
+    .join('  ')});
+    await wait(3000);
+    this.setState({hint:""})
+  }
+
+  FindMorseOf = (charInput) => {
+    return Morse[charInput];
   }
 
   async getMorse(counter){
     var morseofbutton = "";
-    await wait(100);
+    await wait(200);
     if(this.state.lock[counter] == false){
       morseofbutton += ".";
     } else{
-      await wait(600);
+      await wait(800);
       if(this.state.lock[counter] == false){
         morseofbutton += "-";
       }
@@ -227,13 +200,14 @@ class Learn extends Component {
 
   async getSpace(counter){
     var morseofbutton = "";
-    await wait(500);
+    await wait(1000);
     if(this.state.lock[counter] == false && this.state.lock[counter + 1] == null){
       morseofbutton += " ";
       this.ConvertMorseToText();
     }
     this.setState({morse:this.state.morse + morseofbutton});
   }
+
 
   render() {
     return (
@@ -242,7 +216,7 @@ class Learn extends Component {
             <View style={styles.content}>
               <View style={styles.header}>
                 <View style={styles.textSection}>
-                  <Text style={styles.learnText}>{I18n.t('LearnTitle')}: {this.state.level}</Text>
+                  <Text style={styles.learnText}>{I18n.t('LearnTitle')}: {this.state.level + 1}</Text>
                   <Text style={styles.astText}>{I18n.t('Complete')}: {this.state.complete_progress}%</Text>
                 </View>
                 <View style={styles.iconSection}>
@@ -251,12 +225,11 @@ class Learn extends Component {
               </View>
               <View style={styles.characterSection}>
                 <Text style={styles.letter}>{this.state.text}</Text>
-                <TouchableOpacity>
+                
+                <TouchableOpacity onPress={() => {this.Hint()}}>
                   <Icon name="help" size={36} color="#757575" />
                 </TouchableOpacity>
-                <TouchableOpacity onPress={() => {this.clearWindow()}}>
-                  <Icon name="clear" size={30} color="#757575" />
-                </TouchableOpacity>
+                <Text style={styles.letter}>{this.state.hint}</Text>
                 <Text style={styles.answer}></Text>
               </View>
               <View style={styles.morseSection}>

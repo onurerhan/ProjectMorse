@@ -135,7 +135,6 @@ class Decode extends Component {
     var output = hold + input; 
     this.setState({text: output});
   }
-// not working otherwise need to find better fix
 // need to fix css
   render() {
     return (
