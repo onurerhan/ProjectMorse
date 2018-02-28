@@ -10,6 +10,7 @@ import Torch from 'react-native-torch';
 import I18n from 'react-native-i18n';
 import en from '../../app/config/en-US';
 import tr from '../../app/config/tr';
+import SmsListener from 'react-native-android-sms-listener';
 
 const styles = StyleSheet.create({
     container: {
@@ -69,7 +70,41 @@ class Encode extends Component {
     tabBarLabel:  I18n.t('Encode')
   });
 
-  
+
+ SmsListen () {
+    SmsListener.addListener(message => {
+      let smsBody = message.body.split('')
+        .map((character) => this.FindMorseOf(character.toUpperCase()))
+        .join('  ');;
+
+      this.GetAsyncStorageData('_USE_SMS').then((res) => {
+        if(res == 'true'){
+
+          this.GetAsyncStorageData('_USE_VIBRATION').then((res) => {
+            if(res == 'true'){
+              this.VibrateListener(smsBody);
+            }
+          });
+    
+          this.GetAsyncStorageData('_USE_SOUND').then((res) => {
+            if(res == 'true'){
+              this.AudioListener(smsBody);
+            }      
+          
+          });
+    
+          this.GetAsyncStorageData('_USE_FLASHLIGHT').then((res) => {
+            if(res == 'true'){
+            //  this.FlashListener(smsBody);
+            }      
+          });
+
+        }
+      });
+
+    });
+  }
+
   async GetAsyncStorageData(key){
     try {
       let value = await AsyncStorage.getItem(key);
@@ -83,15 +118,15 @@ class Encode extends Component {
   }
 
   async GetLanguageData(){
-
     let a = await this.GetAsyncStorageData('_LANGUAGE').then((s) => {
      if(s == 'tr') return "1"; else return "0";
     });
     return a;
-   }
+  }
+  
 
 
-  fetchLanguage = async() => {
+  fetchLanguage =  async() => {
     try {
       const res = await this.GetLanguageData();
       this.setState({lang:res});
@@ -102,12 +137,12 @@ class Encode extends Component {
 
   componentWillMount(){
     this.fetchLanguage();
-    
   }
 
   componentDidMount(){
-
     whoosh = new Sound('hz.mp3', Sound.MAIN_BUNDLE, (error) => {});
+    this.SmsListen();
+
   }
 
 
@@ -118,6 +153,7 @@ class Encode extends Component {
       isFlashlight: false,
       isSound: false,
       isVibration: true,
+
       stopToggle: false,
       speed: 5,
       text: "",
@@ -174,10 +210,31 @@ class Encode extends Component {
       }  
   }
 
+  async FlashListener(user_input){
+    var unit_time =parseInt(400/this.state.speed);
+    for (var counter = 0; counter < user_input.length; counter++) {
+      if(this.state.stopToggle==false){
+        if(user_input[counter]=="-"){
+          Torch.switchState(true);
+          await wait(unit_time * 2);
+        } else if(user_input[counter]=="."){
+          Torch.switchState(true);
+          await wait(unit_time);
+        } else if(user_input[counter]=="/"){
+          await wait(unit_time * 1.6);
+        } else if(user_input[counter]==" "){
+          await wait(unit_time);
+        }
+      } else if(this.state.stopToggle==true){
+        unit_time = 0;
+      }
+      Torch.switchState(false);
+      await wait(unit_time);
+      }  
+  }
 
-  async Audio(){
-    
-    var user_input = this.ConvertTextToMorse();
+
+  async AudioListener(user_input){
     var unit_time = parseInt(400/this.state.speed);
     for (var counter = 0; counter < user_input.length; counter++) {
       if(this.state.stopToggle==false){
@@ -200,6 +257,48 @@ class Encode extends Component {
     }  
   }
 
+  async Audio(){
+    var user_input = this.ConvertTextToMorse();
+    var unit_time = parseInt(400/this.state.speed);
+    for (var counter = 0; counter < user_input.length; counter++) {
+      if(this.state.stopToggle==false){
+        if(user_input[counter]=="-"){
+          whoosh.play();
+          await wait(unit_time * 2);
+        } else if(user_input[counter]=="."){
+          whoosh.play();
+          await wait(unit_time);
+        } else if(user_input[counter]=="/"){
+          await wait(unit_time * 1.6);
+        } else if(user_input[counter]==" "){
+          await wait(unit_time);
+        }
+      } else if(this.state.stopToggle==true){
+        unit_time = 0;
+      }
+      whoosh.stop();
+      await wait(unit_time);
+    }  
+  }
+  
+  VibrateListener = (user_input) => {
+    var vibration_time = [0];
+    var unit_time =parseInt(400/this.state.speed);
+    
+    for(var counter = 0; counter < user_input.length; counter++){
+      if(user_input[counter]=="-"){
+        vibration_time.push(parseInt(2 * unit_time));
+      } else if(user_input[counter]=="."){
+        vibration_time.push(unit_time);
+      } else if(user_input[counter]=="/"){
+        vibration_time.push(0, 2 * unit_time, 0);
+      } else if(user_input[counter]==" "){
+        vibration_time.push(0, unit_time, 0);
+      }
+      vibration_time.push(unit_time);
+    }
+    Vibration.vibrate(vibration_time);
+  }
 
   Vibrate = () => {
     var user_input = this.ConvertTextToMorse();

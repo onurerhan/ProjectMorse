@@ -84,32 +84,46 @@ const styles = StyleSheet.create({
 
 class Settings extends Component {
 
-
   static navigationOptions  = () => ({
     tabBarLabel:  I18n.t('Settings')
   });
 
-
   constructor(props){
     super(props);
 
-
      this.state = {
       currentLanguage: '1',
-      isNotification: false,
       isSms: false,
       isEmail: false,
       speed: 0.8,
       isVibration: false,
       isFlashlight: false,
-      isSound: false
+      isSound: false,
 
     }
 
   }
 
-  async componentDidMount(){
+  async componentWillMount(){
     this.setState({currentLanguage: await this.getLanguageData()});
+
+    await this.getAsyncData('_USE_SMS');
+    await this.getAsyncData('_USE_VIBRATION');
+    await this.getAsyncData('_USE_SOUND');
+    await this.getAsyncData('_USE_MAIL');
+    await this.getAsyncData('_USE_FLASHLIGHT');
+
+    let isSms = this.state.isSms, 
+        //isEmail = this.state.isEmail,
+        isFlashlight = this.state.isFlashlight,
+        isVibration = this.state.isVibration,
+        isSound = this.state.isSound;
+
+    this.setState({isSms: !isSms});
+  //  this.setState({isEmail: !isEmail});
+    this.setState({isFlashlight: !isFlashlight});
+    this.setState({isVibration: !isVibration});
+    this.setState({isSound: !isSound});
   }
 
   async getLanguageData(){
@@ -121,9 +135,55 @@ class Settings extends Component {
 
   }
 
-  NotificationStateControl(val){
-    if(val) this.setState({isNotification: true}); return 0;
-  }
+  async getAsyncData(data){
+
+    let a = await this.getData(data).then((s) => {
+
+      if(data == '_USE_SMS'){
+        if(s == 'true'){
+          this.setState({isSms: false});
+        }else{
+          this.setState({isSms: true});
+        }
+      }
+
+      if(data == '_USE_MAIL'){
+        if(s == 'true'){
+          this.setState({isEmail: true});
+        }else{
+          this.setState({isEmail: false});
+        }
+      }
+
+      if(data == '_USE_VIBRATION'){
+        if(s == 'true'){
+          this.setState({isVibration: true});
+        }else{
+          this.setState({isVibration: false});
+        }
+      }
+
+      if(data == '_USE_FLASHLIGHT'){
+        if(s == 'true'){
+          this.setState({isFlashlight: true});
+        }else{
+          this.setState({isFlashlight: false});
+        }
+      }
+
+      if(data == '_USE_SOUND'){
+        if(s == 'true'){
+          this.setState({isSound: true});
+        }else{
+          this.setState({isSound: false});
+        }
+      }
+
+      console.warn("DATA: "+ data + " Val: " + s);
+
+    });
+
+   }
 
   LanguageChange(itemValue, itemIndex){
     this.setState({currentLanguage: itemValue});
@@ -159,15 +219,18 @@ class Settings extends Component {
 
   OnSmsChanged(){
     let isSms = this.state.isSms;
+    if(!isSms == true){
+      this.saveData('_USE_SMS', 'true')
+    }else{
+      this.saveData('_USE_SMS', 'false')
+    }
     this.setState({isSms: !isSms});
-    this.NotificationStateControl(!isSms);
 
   }
 
   OnEmailChanged(){
     let isEmail = this.state.isEmail;
     this.setState({isEmail: !isEmail});
-    this.NotificationStateControl(!isEmail);
 
   }
 
@@ -177,37 +240,32 @@ class Settings extends Component {
 
   OnVibrationChanged(){
     let isVibration = this.state.isVibration;
+    if(!isVibration == true){
+      this.saveData('_USE_VIBRATION', 'true')
+    }else{
+      this.saveData('_USE_VIBRATION', 'false')
+    }
     this.setState({isVibration: !isVibration});
-    this.NotificationStateControl(!isVibration);
   }
 
   OnFlashlightChanged(){
     let isFlashlight = this.state.isFlashlight;
+    if(!isFlashlight == true){
+      this.saveData('_USE_FLASHLIGHT', 'true')
+    }else{
+      this.saveData('_USE_FLASHLIGHT', 'false')
+    }
     this.setState({isFlashlight: !isFlashlight});
-    this.NotificationStateControl(!isFlashlight);
   }
 
   OnSoundChanged(){
     let isSound = this.state.isSound;
-    this.setState({isSound: !isSound});
-    this.NotificationStateControl(!isSound);
-  }
-
-  Notifications(value){
-    this.setState({isNotification:value});
-    if(!value){
-      this.CloseCheckBoxes();
+    if(!isSound == true){
+      this.saveData('_USE_SOUND', 'true')
     }else{
-      this.setState({isSms:true});
+      this.saveData('_USE_SOUND', 'false')
     }
-  }
-
-  CloseCheckBoxes(){
-    this.setState({isEmail: false});
-    this.setState({isSms: false});
-    this.setState({isVibration: false});
-    this.setState({isFlashlight: false});
-    this.setState({isSound: false});
+    this.setState({isSound: !isSound});
   }
 
   render() {
@@ -244,7 +302,7 @@ class Settings extends Component {
                 <View style={styles.title}>
                   <Text style={{color:colors.activeTintColor, fontWeight:'500', fontSize:17}}>{I18n.t('Notification')}</Text>
                 </View>
-                <CustomSwitch value={this.state.isNotification} onValueChange = {(value) => this.Notifications(value)} />
+                {/* <CustomSwitch value={this.state.isNotification} onValueChange = {(value) => this.Notifications(value)} /> */}
             </View>
             <View style={styles.option}>
                 <View style={styles.directionRow}>

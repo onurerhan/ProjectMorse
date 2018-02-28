@@ -13,6 +13,7 @@ import com.facebook.soloader.SoLoader;
 import com.AlexanderZaytsev.RNI18n.RNI18nPackage; 
 import java.util.Arrays;
 import java.util.List;
+import com.centaurwarchief.smslistener.SmsListenerPackage;
 
 public class MainApplication extends Application implements ReactApplication {
 
@@ -29,7 +30,8 @@ public class MainApplication extends Application implements ReactApplication {
             new RCTTorchPackage(),
             new RNSoundPackage(),
             new RCTCameraPackage(),
-            new RNI18nPackage()
+            new RNI18nPackage(),
+            new SmsListenerPackage()
       );
     }
 
