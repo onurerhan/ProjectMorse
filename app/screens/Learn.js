@@ -111,8 +111,8 @@ class Learn extends Component {
 
   componentWillMount(){
     this.fetchLanguage();
+    this.randomizeLevels();
   }
-
 
   constructor(props){
     super(props);
@@ -207,6 +207,36 @@ class Learn extends Component {
     }
     this.setState({morse:this.state.morse + morseofbutton});
   }
+
+  randomizeLevels(){
+    var level_data = this.state.game;
+    var counter = 0;
+    while (counter < level_data.length){
+      level_data[counter] = this.shuffle(level_data[counter]);
+      counter += 1;
+    }
+    this.setState({game:level_data})
+  }
+
+  shuffle(array) {
+    var currentIndex = array.length, temporaryValue, randomIndex;
+  
+    // While there remain elements to shuffle...
+    while (0 !== currentIndex) {
+  
+      // Pick a remaining element...
+      randomIndex = Math.floor(Math.random() * currentIndex);
+      currentIndex -= 1;
+  
+      // And swap it with the current element.
+      temporaryValue = array[currentIndex];
+      array[currentIndex] = array[randomIndex];
+      array[randomIndex] = temporaryValue;
+    }
+  
+    return array;
+  }
+  
 
 
   render() {
