@@ -112,6 +112,7 @@ class Learn extends Component {
   componentWillMount(){
     this.fetchLanguage();
     this.randomizeLevels();
+    this.Hint(0);
   }
 
   constructor(props){
@@ -125,12 +126,13 @@ class Learn extends Component {
       lock: [],
       wpm: 20,
       level: 0,
-      game: [["A","B","C","D","E","F","G","H","I","J","K","L","M","N","O","P","Q","R","S","T","U","V","W","X","Y","Z"],["SOS","SMS","HI"],["HELLO WORLD","HELP ME","I AM STUCK","INSIDE THE PHONE"]],
+      game: [["A","E","I"],["SOS","SMS","HI"],["A","B","C","D","E","F","G","H","I","J","K","L","M","N","O","P","Q","R","S","T","U","V","W","X","Y","Z"],["HELLO WORLD","HELP ME","I AM STUCK","INSIDE THE PHONE"]],
       sub_level: 0,
       level_completion: 0,
       sub_level_completion: 0,
       complete_progress: 0,
       try_number: 3,
+      first_press: true,
     }
   }
 
@@ -141,7 +143,7 @@ class Learn extends Component {
       textoutput += Object.keys(Morse).find(key => Morse[key] === userinput[n]);
     }
     this.setState({text: textoutput});
-    this.Game();
+    
   }
 
   async clearWindow(){
@@ -160,24 +162,31 @@ class Learn extends Component {
         this.state.sub_level += 1;
         var floor = Math.floor;
         this.state.complete_progress = floor(this.state.sub_level / this.state.game[this.state.level].length * 100);
-        this.Hint();
+        if(this.state.complete_progress >= 100){
+          this.state.level += 1;
+          this.state.sub_level = 0;
+          this.state.complete_progress = 0;
+        }
+        this.Hint(3000);
       }
-      if(this.state.sub_level_completion == this.state.game[this.state.level].length){
-        this.state.level += 1;
-        this.state.sub_level = 0;
-      }
+      
       return 0;
+    }else if(this.state.text.length >= this.state.game[this.state.level][this.state.sub_level].length){
+      await wait(1000);
+      this.clearWindow();
     }
-    await wait(1000);
-    this.clearWindow();
+    
   }
 
-  async Hint(){
+  async Hint(time){
+    this.setState({hint:""})
     this.setState({hint:this.state.game[this.state.level][this.state.sub_level] + ": " + this.state.game[this.state.level][this.state.sub_level].split('')
     .map((character) => this.FindMorseOf(character.toUpperCase()))
     .join('  ')});
-    await wait(3000);
-    this.setState({hint:""})
+    if(this.state.first_press == false){
+      await wait(time);
+      this.setState({hint:""});
+    }
   }
 
   FindMorseOf = (charInput) => {
@@ -190,7 +199,7 @@ class Learn extends Component {
     if(this.state.lock[counter] == false){
       morseofbutton += ".";
     } else{
-      await wait(800);
+      await wait(600);
       if(this.state.lock[counter] == false){
         morseofbutton += "-";
       }
@@ -204,6 +213,7 @@ class Learn extends Component {
     if(this.state.lock[counter] == false && this.state.lock[counter + 1] == null){
       morseofbutton += " ";
       this.ConvertMorseToText();
+      this.Game();
     }
     this.setState({morse:this.state.morse + morseofbutton});
   }
@@ -256,7 +266,7 @@ class Learn extends Component {
               <View style={styles.characterSection}>
                 <Text style={styles.letter}>{this.state.text}</Text>
                 
-                <TouchableOpacity onPress={() => {this.Hint()}}>
+                <TouchableOpacity onPress={() => {this.Hint(3000)}}>
                   <Icon name="help" size={36} color="#757575" />
                 </TouchableOpacity>
                 <Text style={styles.letter}>{this.state.hint}</Text>
@@ -270,6 +280,10 @@ class Learn extends Component {
                   <TouchableOpacity activeOpacity={0.2} style={styles.button} 
                       onPressIn = {
                         () => {
+                          if(this.state.first_press == true){
+                            this.setState({first_press:false});
+                            this.Hint(3000);
+                          }
                           this.state.lock[this.state.counter] = true;
                           this.getMorse(this.state.counter);
                         }
