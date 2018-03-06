@@ -114,16 +114,16 @@ class Settings extends Component {
     await this.getAsyncData('_USE_FLASHLIGHT');
 
     let isSms = this.state.isSms, 
-        //isEmail = this.state.isEmail,
+        isEmail = this.state.isEmail,
         isFlashlight = this.state.isFlashlight,
         isVibration = this.state.isVibration,
         isSound = this.state.isSound;
 
-    this.setState({isSms: !isSms});
+    //this.setState({isSms: !isSms});
   //  this.setState({isEmail: !isEmail});
-    this.setState({isFlashlight: !isFlashlight});
-    this.setState({isVibration: !isVibration});
-    this.setState({isSound: !isSound});
+    //this.setState({isFlashlight: !isFlashlight});
+    //this.setState({isVibration: !isVibration});
+   // this.setState({isSound: !isSound});
   }
 
   async getLanguageData(){
@@ -141,9 +141,9 @@ class Settings extends Component {
 
       if(data == '_USE_SMS'){
         if(s == 'true'){
-          this.setState({isSms: false});
-        }else{
           this.setState({isSms: true});
+        }else{
+          this.setState({isSms: false});
         }
       }
 
@@ -178,9 +178,6 @@ class Settings extends Component {
           this.setState({isSound: false});
         }
       }
-
-      console.warn("DATA: "+ data + " Val: " + s);
-
     });
 
    }
@@ -230,6 +227,11 @@ class Settings extends Component {
 
   OnEmailChanged(){
     let isEmail = this.state.isEmail;
+    if(!isEmail == true){
+      this.saveData('_USE_MAIL', 'true')
+    }else{
+      this.saveData('_USE_MAIL', 'false')
+    }
     this.setState({isEmail: !isEmail});
 
   }

@@ -89,13 +89,11 @@ class Encode extends Component {
           this.GetAsyncStorageData('_USE_SOUND').then((res) => {
             if(res == 'true'){
               this.AudioListener(smsBody);
-            }      
-          
+            }
           });
-    
           this.GetAsyncStorageData('_USE_FLASHLIGHT').then((res) => {
             if(res == 'true'){
-            //  this.FlashListener(smsBody);
+            this.FlashListener(smsBody);
             }      
           });
 
@@ -153,13 +151,11 @@ class Encode extends Component {
       isFlashlight: false,
       isSound: false,
       isVibration: true,
-
       stopToggle: false,
       speed: 5,
       text: "",
       lang:""
     }
-
   }
 
   ConvertTextToMorse = () => {
@@ -167,7 +163,6 @@ class Encode extends Component {
                 .text.split('')
                 .map((character) => this.FindMorseOf(character.toUpperCase()))
                 .join('  ');
-    
   }
 
   FindMorseOf = (charInput) => {
@@ -281,10 +276,9 @@ class Encode extends Component {
     }  
   }
   
-  VibrateListener = (user_input) => {
+  async VibrateListener(user_input){
     var vibration_time = [0];
-    var unit_time =parseInt(400/this.state.speed);
-    
+    var unit_time = parseInt(400/this.state.speed);
     for(var counter = 0; counter < user_input.length; counter++){
       if(user_input[counter]=="-"){
         vibration_time.push(parseInt(2 * unit_time));
@@ -304,7 +298,6 @@ class Encode extends Component {
     var user_input = this.ConvertTextToMorse();
     var vibration_time = [0];
     var unit_time =parseInt(400/this.state.speed);
-    
     for(var counter = 0; counter < user_input.length; counter++){
       if(user_input[counter]=="-"){
         vibration_time.push(parseInt(2 * unit_time));
