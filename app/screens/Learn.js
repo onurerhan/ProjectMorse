@@ -133,6 +133,8 @@ class Learn extends Component {
       complete_progress: 0,
       try_number: 3,
       first_press: true,
+      border: '#77D400',
+      background: '#FFF',
     }
   }
 
@@ -154,7 +156,9 @@ class Learn extends Component {
 
   async Game(){
     if (this.state.game[this.state.level][this.state.sub_level] == this.state.text && this.state.sub_level_completion < this.state.try_number){
+      this.setState({background:'#77D400'})
       await wait(1000);
+      this.setState({background:'#fff'})
       this.clearWindow();
       this.state.sub_level_completion += 1;
       if (this.state.sub_level_completion == this.state.try_number){
@@ -172,7 +176,9 @@ class Learn extends Component {
       
       return 0;
     }else if(this.state.text.length >= this.state.game[this.state.level][this.state.sub_level].length){
+      this.setState({background:'#ff0000'})
       await wait(1000);
+      this.setState({background:'#fff'})
       this.clearWindow();
     }
     
@@ -263,9 +269,12 @@ class Learn extends Component {
                   {/* <Icon name="assessment" size={50} color="#86DF13" /> */}
                 </View>
               </View>
-              <View style={styles.characterSection}>
+              <View style={[{flex: 2,
+                    borderRadius: 4, borderWidth: 2.5, borderColor: '#77D400',
+                    justifyContent:'center', alignItems:'center',
+                    marginBottom: 7,
+                    backgroundColor:this.state.background, borderColor:this.state.border}]}>
                 <Text style={styles.letter}>{this.state.text}</Text>
-                
                 <TouchableOpacity onPress={() => {this.Hint(3000)}}>
                   <Icon name="help" size={36} color="#757575" />
                 </TouchableOpacity>
