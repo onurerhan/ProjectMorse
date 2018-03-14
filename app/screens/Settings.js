@@ -313,7 +313,7 @@ class Settings extends Component {
                 </View>
                 <CheckBox value={this.state.isSms} onChange={() => this.OnSmsChanged()} ></CheckBox>
             </View>
-            <View style={styles.option}>
+            {/*<View style={styles.option}>
               <View style={styles.directionRow}>
                 <Icon name="email" size={30} color="#757575" />
                 <Text style={styles.optionText}>{I18n.t('EmailNot')}</Text>
@@ -330,7 +330,7 @@ class Settings extends Component {
                   onValueChange={val => this.setState({ speed: val })}
                   minimumValue={1}
                   maximumValue={100}  />
-            </View>
+            </View>*/}
             <View style={styles.option}>
               <View style={styles.directionRow}>
                 <Icon name="vibration" size={30} color="#757575" />
