@@ -121,12 +121,21 @@ class Learn extends Component {
       morse: "",
       text: "",
       hint: "",
-      correct_message: "Correct!",
       counter: 0,
       lock: [],
+      space_lock: [],
+      space_counter: 0,
       wpm: 20,
       level: 0,
-      game: [["A","E","I"],["SOS","SMS","HI"],["A","B","C","D","E","F","G","H","I","J","K","L","M","N","O","P","Q","R","S","T","U","V","W","X","Y","Z"],["HELLO WORLD","HELP ME","I AM STUCK","INSIDE THE PHONE"]],
+      game: [["E","T"],
+      ["A", "I", "N", "M"],
+      ["AN", "ET", "IN"],
+      ["O", "G", "K", "D", "W", "R", "U", "S"],
+      ["SOS", "SMS", "DAN", "RUS", "WIN", "GROUND"],
+      ["Q", "Z", "Y", "C", "X", "B", "J", "P", "L", "F", "V", "H"],
+      ["FLY", "QUICK", "PLAYGROUND"],
+      ["-", ".", "0", "1", "2", "3", "4", "5", "6", "7", "8", "9"]
+      ],
       sub_level: 0,
       level_completion: 0,
       sub_level_completion: 0,
@@ -159,8 +168,8 @@ class Learn extends Component {
       this.setState({background:'#77D400'})
       await wait(1000);
       this.setState({background:'#fff'})
-      this.clearWindow();
       this.state.sub_level_completion += 1;
+      this.clearWindow();
       if (this.state.sub_level_completion == this.state.try_number){
         this.state.sub_level_completion = 0;
         this.state.sub_level += 1;
@@ -200,6 +209,12 @@ class Learn extends Component {
   }
 
   async getMorse(counter){
+    if(this.state.space_lock[this.state.space_counter] == true){
+      this.state.space_lock[this.state.space_counter] = false;
+      var incounter = this.state.space_counter + 1;
+      this.setState({space_counter: incounter});
+      this.state.space_lock[this.state.space_counter] = false;
+    }
     var morseofbutton = "";
     await wait(200);
     if(this.state.lock[counter] == false){
@@ -214,14 +229,29 @@ class Learn extends Component {
   }
 
   async getSpace(counter){
+    
     var morseofbutton = "";
     await wait(1000);
     if(this.state.lock[counter] == false && this.state.lock[counter + 1] == null){
+      if(this.state.text != " " || this.state.text != ""){
+        this.state.space_lock[this.state.space_counter] = true;
+        //this.blankSpace();
+      }
       morseofbutton += " ";
       this.ConvertMorseToText();
       this.Game();
+      
     }
     this.setState({morse:this.state.morse + morseofbutton});
+    
+  }
+
+  async blankSpace(){
+    await wait(2000);
+    if(this.state.space_lock[this.state.space_counter] == true || this.state.text != " " || this.state.text != ""){
+      this.setState({morse:this.state.morse + " / "});
+    }
+    this.state.space_lock[this.state.space_counter] = false;
   }
 
   randomizeLevels(){
@@ -252,7 +282,20 @@ class Learn extends Component {
   
     return array;
   }
+
+  inputText(){
+    if (this.state.text == ""){
+      return " ";
+    } 
+    return this.state.text;
+  }
   
+  hintText(){
+    if (this.state.hint == ""){
+      return " ";
+    } 
+    return this.state.hint;
+  }
 
 
   render() {
@@ -263,22 +306,29 @@ class Learn extends Component {
               <View style={styles.header}>
                 <View style={styles.textSection}>
                   <Text style={styles.learnText}>{I18n.t('LearnTitle')}: {this.state.level + 1}</Text>
-                  <Text style={styles.astText}>{I18n.t('Complete')}: {this.state.complete_progress}%</Text>
+                  <Text style={styles.astText}>{I18n.t('Complete')}: {this.state.complete_progress}% </Text>
+                  <Text style={styles.learnText}>{I18n.t('Step')}: {this.state.sub_level_completion}/3</Text>
                 </View>
                 <View style={styles.iconSection}>
                   {/* <Icon name="assessment" size={50} color="#86DF13" /> */}
                 </View>
               </View>
-              <View style={[{flex: 2,
-                    borderRadius: 4, borderWidth: 2.5, borderColor: '#77D400',
-                    justifyContent:'center', alignItems:'center',
+              <View style={[{
+                    flex: 2,
+                    borderRadius: 4, 
+                    borderWidth: 2.5, 
+                    borderColor: '#77D400',
+                    justifyContent:'space-around', 
+                    alignItems:'center',
                     marginBottom: 7,
-                    backgroundColor:this.state.background, borderColor:this.state.border}]}>
-                <Text style={styles.letter}>{this.state.text}</Text>
+                    backgroundColor:this.state.background, 
+                    borderColor:this.state.border,
+                    }]}>
+                <Text style={styles.letter}>{this.inputText()}</Text>
                 <TouchableOpacity onPress={() => {this.Hint(3000)}}>
                   <Icon name="help" size={36} color="#757575" />
                 </TouchableOpacity>
-                <Text style={styles.letter}>{this.state.hint}</Text>
+                <Text style={styles.letter}>{this.hintText()}</Text>
                 <Text style={styles.answer}></Text>
               </View>
               <View style={styles.morseSection}>

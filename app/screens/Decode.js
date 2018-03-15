@@ -143,8 +143,11 @@ class Decode extends Component {
           backgroundColor={colors.statusBar}
           barStyle="light-content" />
         <View style={styles.innerContainer}>
+        <View style= {styles.titleContainer}>
+            <Text style={styles.title}>{I18n.t('DecodeHeader')}</Text>
+          </View>
           <View style={styles.decode}>
-            <View style={styles.pickerContainer}>
+            {/*<View style={styles.pickerContainer}>
               <Picker
                 mode="dropdown"
                 style={styles.pickerStyle}
@@ -154,13 +157,13 @@ class Decode extends Component {
                   <Picker.Item label= {I18n.t('WithCamera')}  value="1" />
                   <Picker.Item label= {I18n.t('WithMic')} value="2" />
               </Picker>
-            </View>
+    </View>*/}
           </View>
           <View style={styles.optionContainer}>
               {
                 this.state.decodeOption == 0 &&
                 <View style={{}}>
-                  <TextInput value={this.state.text} ref={'textInput1'} multiline={true} onChangeText={(text) => this.setState({text})} placeholder={I18n.t('TextPlaceholder')}></TextInput>
+                  <TextInput style={{fontSize:24}} value={this.state.text} ref={'textInput1'} multiline={true} onChangeText={(text) => this.setState({text})} placeholder={I18n.t('TextPlaceholder')}></TextInput>
                   <View style={{flexDirection:'row', justifyContent:'space-between'}}>
                     <Button style={[this.props.style]} width text= "." onPress = {() => {this.AddCharacter('.')}} />
                     <Button text= "-" width onPress = {() => {this.AddCharacter('-')}} />

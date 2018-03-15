@@ -326,7 +326,7 @@ class Encode extends Component {
         <View style={styles.container}>
           <View style={styles.innerContainer}>
             <View style= {styles.titleContainer}>
-              <Text style={styles.title}>{I18n.t('Settings')}</Text>
+              <Text style={styles.title}>{I18n.t('EncodeHeader')}</Text>
             </View>
             <View style={styles.optionContainer}>
               <Text>{I18n.t('UseFlash')}</Text>

@@ -5,6 +5,8 @@ export default {
     Decode: "DECODE",
     Learn: "LEARN",
     Settings: "SETTINGS",
+    EncodeHeader: "Convert text to morse code",
+    DecodeHeader: "Convert morse code to text",
     Language: 'Language',
     UseFlash: "Use Flashlight",
     UseSound: "Use Sound",
@@ -19,10 +21,11 @@ export default {
     FromString: "From string",
     WithCamera: "With camera",
     WithMic: "With microphone",
+    Step: "Step",
     LearnTitle: "Level",
     Complete: "Completion",
     Notification: "Notification",
     SmsNot: "SMS Notification",
     EmailNot: "Email Notification",
-    LangChange: "It's going to activate at the next start."
+    LangChange: "Dil ayarınız kayıt edilmiştir. Bir sonraki açılışta gerçekleşecektir."
 };

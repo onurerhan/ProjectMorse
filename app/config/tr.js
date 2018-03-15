@@ -5,6 +5,8 @@ export default {
     Decode: "ÇÖZ",
     Learn: "ÖĞREN",
     Settings: "AYARLAR",
+    EncodeHeader: "Yazıyı mors koduna çevir",
+    DecodeHeader: "Mors kodunu yazıya çevir",
     Language: 'Dil',
     UseFlash: "Flash Kullan",
     UseSound: "Ses Kullan",
@@ -19,10 +21,11 @@ export default {
     FromString: "Metinden",
     WithCamera: "Kamera ile",
     WithMic: "Mikrofon ile",
+    Step: "Adım",
     LearnTitle: "Seviye",
     Complete: "Bitirme",
     Notification: "Bildirim",
     SmsNot: "SMS Bildirimleri",
     EmailNot: "Email Bildirimleri",
-    LangChange: "Dil ayarınız kayıt edilmiştir. Bir sonraki açılışta gerçekleşecektir."
+    LangChange: "It's going to activate at the next start."
 };
