@@ -164,7 +164,7 @@ class Learn extends Component {
 
 
   async Game(){
-    if (this.state.game[this.state.level][this.state.sub_level] == this.state.text && this.state.sub_level_completion < this.state.try_number){
+    if (this.state.game[this.state.level][this.state.sub_level] == this.state.text){
       this.setState({background:'#77D400'})
       await wait(1000);
       this.setState({background:'#fff'})
@@ -173,8 +173,7 @@ class Learn extends Component {
       if (this.state.sub_level_completion == this.state.try_number){
         this.state.sub_level_completion = 0;
         this.state.sub_level += 1;
-        var floor = Math.floor;
-        this.state.complete_progress = floor(this.state.sub_level / this.state.game[this.state.level].length * 100);
+        this.state.complete_progress = Math.floor(this.state.sub_level / this.state.game[this.state.level].length * 100);
         if(this.state.complete_progress >= 100){
           this.state.level += 1;
           this.state.sub_level = 0;
@@ -235,7 +234,7 @@ class Learn extends Component {
     if(this.state.lock[counter] == false && this.state.lock[counter + 1] == null){
       if(this.state.text != " " || this.state.text != ""){
         this.state.space_lock[this.state.space_counter] = true;
-        //this.blankSpace();
+        this.blankSpace();
       }
       morseofbutton += " ";
       this.ConvertMorseToText();
@@ -248,7 +247,7 @@ class Learn extends Component {
 
   async blankSpace(){
     await wait(2000);
-    if(this.state.space_lock[this.state.space_counter] == true || this.state.text != " " || this.state.text != ""){
+    if(this.state.space_lock[this.state.space_counter] == true && (this.state.text != " " && this.state.text != "")){
       this.setState({morse:this.state.morse + " / "});
     }
     this.state.space_lock[this.state.space_counter] = false;
