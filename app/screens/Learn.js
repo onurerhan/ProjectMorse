@@ -44,8 +44,8 @@ const styles = StyleSheet.create({
     buttonSection:{
       flex: 2,
       alignSelf:'stretch',
-      borderRadius: 6, borderWidth: 2.5, borderColor: '#77D400',
-      backgroundColor:'#FFF'
+      borderRadius: 6, borderWidth: 2.5, borderColor: '#A4A3A3',
+      backgroundColor:'#A4A3A3'
     },
     header:{
       flexDirection:'row',
@@ -67,7 +67,7 @@ const styles = StyleSheet.create({
     letter:{fontSize:50, fontWeight:'500'},
     answer:{fontSize:35, fontWeight:'500'},
     userInput:{fontSize:54, fontWeight:'500'},
-    buttonContainer:{flex:1, backgroundColor:'#77D400'},
+    buttonContainer:{flex:1, backgroundColor:'#A4A3A3'},
     button: {flex:1, justifyContent:'center', alignItems:'center'}
 });
 
