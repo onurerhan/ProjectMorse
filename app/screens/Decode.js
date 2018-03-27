@@ -163,7 +163,7 @@ class Decode extends Component {
               {
                 this.state.decodeOption == 0 &&
                 <View style={{}}>
-                  <TextInput style={{fontSize:24}} value={this.state.text} ref={'textInput1'} multiline={true} onChangeText={(text) => this.setState({text})} placeholder={I18n.t('TextPlaceholder')}></TextInput>
+                  <TextInput style={{fontSize:24}} value={this.state.text} ref={'textInput1'} multiline={true} onChangeText={(text) => this.setState({text})} placeholder={I18n.t('DecodePlaceholder')}></TextInput>
                   <View style={{flexDirection:'row', justifyContent:'space-between'}}>
                     <Button style={[this.props.style]} width text= "." onPress = {() => {this.AddCharacter('.')}} />
                     <Button text= "-" width onPress = {() => {this.AddCharacter('-')}} />

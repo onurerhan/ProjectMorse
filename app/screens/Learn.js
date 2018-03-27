@@ -36,7 +36,7 @@ const styles = StyleSheet.create({
     },
     morseSection:{
       flex: 2,
-      justifyContent:'center', alignItems:'center',
+      justifyContent:'space-around', alignItems:'center',
       borderRadius: 4, borderWidth: 2.5, borderColor: '#77D400',
       marginBottom: 7,
       backgroundColor:'#FFF'
@@ -92,7 +92,6 @@ class Learn extends Component {
   }
 
   async GetLanguageData(){
-
     let a = await this.GetAsyncStorageData('_LANGUAGE').then((s) => {
      if(s == 'tr') return "1"; else return "0";
     });
@@ -105,7 +104,6 @@ class Learn extends Component {
       const res = await this.GetLanguageData();
       this.setState({lang:res});
     } catch (e) {
-
     } 
   }
 
@@ -127,7 +125,7 @@ class Learn extends Component {
       space_counter: 0,
       wpm: 20,
       level: 0,
-      game: [["E","T"],
+      game: [["E"], ["T"],
       ["A", "I", "N", "M"],
       ["AN", "ET", "IN"],
       ["O", "G", "K", "D", "W", "R", "U", "S"],
@@ -144,6 +142,7 @@ class Learn extends Component {
       first_press: true,
       border: '#77D400',
       background: '#FFF',
+      tries: 0,
     }
   }
 
@@ -169,6 +168,7 @@ class Learn extends Component {
       await wait(1000);
       this.setState({background:'#fff'})
       this.state.sub_level_completion += 1;
+      this.state.tries = 0;
       this.clearWindow();
       if (this.state.sub_level_completion == this.state.try_number){
         this.state.sub_level_completion = 0;
@@ -181,15 +181,14 @@ class Learn extends Component {
         }
         this.Hint(3000);
       }
-      
       return 0;
     }else if(this.state.text.length >= this.state.game[this.state.level][this.state.sub_level].length){
       this.setState({background:'#ff0000'})
+      this.state.tries += 1;
       await wait(1000);
       this.setState({background:'#fff'})
       this.clearWindow();
     }
-    
   }
 
   async Hint(time){
@@ -265,20 +264,16 @@ class Learn extends Component {
 
   shuffle(array) {
     var currentIndex = array.length, temporaryValue, randomIndex;
-  
     // While there remain elements to shuffle...
     while (0 !== currentIndex) {
-  
       // Pick a remaining element...
       randomIndex = Math.floor(Math.random() * currentIndex);
       currentIndex -= 1;
-  
       // And swap it with the current element.
       temporaryValue = array[currentIndex];
       array[currentIndex] = array[randomIndex];
       array[randomIndex] = temporaryValue;
     }
-  
     return array;
   }
 
@@ -294,6 +289,52 @@ class Learn extends Component {
       return " ";
     } 
     return this.state.hint;
+  }
+
+  morseText(){
+    if (this.state.morse == ""){
+      return " ";
+    } 
+    return this.state.morse;
+  }
+
+  tutorial(){
+    if (this.state.level == 0){
+      if(this.state.tries > 2){
+        return "You need to press the button for less than 200 miliseconds";
+      }
+      return "Click the button under to write dot";
+    }
+    if (this.state.level == 1){
+      if(this.state.tries > 2){
+        return "You need to hold the button for less than 1 seconds";
+      }
+      return "Hold the button a bit for writing dash";
+    }
+    if (this.state.level == 2){
+      if(this.state.tries > 2){
+        return "";
+      }
+      return "";
+    }
+    if (this.state.level == 3){
+      if(this.state.tries > 2){
+        return "";
+      }
+      return "";
+    }
+    if (this.state.level == 4){
+      if(this.state.tries > 2){
+        return "";
+      }
+      return "";
+    }
+    if (this.state.level == 5){
+      if(this.state.tries > 2){
+        return "";
+      }
+      return "";
+    }
   }
 
 
@@ -324,14 +365,17 @@ class Learn extends Component {
                     borderColor:this.state.border,
                     }]}>
                 <Text style={styles.letter}>{this.inputText()}</Text>
-                <TouchableOpacity onPress={() => {this.Hint(3000)}}>
+                <TouchableOpacity onPress={() => {
+                  this.Hint(3000);
+                  }}>
                   <Icon name="help" size={36} color="#757575" />
                 </TouchableOpacity>
                 <Text style={styles.letter}>{this.hintText()}</Text>
                 <Text style={styles.answer}></Text>
               </View>
               <View style={styles.morseSection}>
-                <Text style={styles.userInput}>{this.state.morse}</Text>
+                <Text style={styles.userInput}>{this.morseText()}</Text>
+                <Text>{this.tutorial()}</Text>
               </View>
               <View style={styles.buttonSection}>
                 <View style={styles.buttonContainer}>

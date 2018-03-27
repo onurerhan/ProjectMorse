@@ -13,6 +13,7 @@ export default {
     UseVib: "Use Vibration",
     Speed: "Speed",
     TextPlaceholder: "Please enter some text",
+    DecodePlaceholder: "Please enter morse code",
     Convert: "Convert",
     Stop: "Stop",
     LiveTextMorse: "Live Text to Morse",
