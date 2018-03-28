@@ -28,5 +28,17 @@ export default {
     Notification: "Notification",
     SmsNot: "SMS Notification",
     EmailNot: "Email Notification",
-    LangChange: "Dil ayarınız kayıt edilmiştir. Bir sonraki açılışta gerçekleşecektir."
+    LangChange: "Dil ayarınız kayıt edilmiştir. Bir sonraki açılışta gerçekleşecektir.",
+    Tutorial0a: "Click the button under to write dot",
+    Tutorial0b: "You need to press the button for less than 200 miliseconds",
+    Tutorial1a: "Hold the button a bit to write dash",
+    Tutorial1b: "You need to hold the button for less than 1 seconds",
+    Tutorial2a: "",
+    Tutorial2b: "",
+    Tutorial3a: "",
+    Tutorial3b: "",
+    Tutorial4a: "",
+    Tutorial4b: "",
+    Tutorial5a: "",
+    Tutorial5b: "",
 };

@@ -139,7 +139,7 @@ class Learn extends Component {
       sub_level_completion: 0,
       complete_progress: 0,
       try_number: 3,
-      first_press: true,
+      hint_hide: false,
       border: '#77D400',
       background: '#FFF',
       tries: 0,
@@ -179,7 +179,7 @@ class Learn extends Component {
           this.state.sub_level = 0;
           this.state.complete_progress = 0;
         }
-        this.Hint(3000);
+        this.Hint();
       }
       return 0;
     }else if(this.state.text.length >= this.state.game[this.state.level][this.state.sub_level].length){
@@ -191,14 +191,14 @@ class Learn extends Component {
     }
   }
 
-  async Hint(time){
+  async Hint(){
     this.setState({hint:""})
-    this.setState({hint:this.state.game[this.state.level][this.state.sub_level] + ": " + this.state.game[this.state.level][this.state.sub_level].split('')
-    .map((character) => this.FindMorseOf(character.toUpperCase()))
-    .join('  ')});
-    if(this.state.first_press == false){
-      await wait(time);
-      this.setState({hint:""});
+    if(this.state.hint_hide == true){
+      this.setState({hint:this.state.game[this.state.level][this.state.sub_level]});
+    } else {
+      this.setState({hint:this.state.game[this.state.level][this.state.sub_level] + ": " + this.state.game[this.state.level][this.state.sub_level].split('')
+      .map((character) => this.FindMorseOf(character.toUpperCase()))
+      .join('  ')});
     }
   }
 
@@ -252,6 +252,16 @@ class Learn extends Component {
     this.state.space_lock[this.state.space_counter] = false;
   }
 
+  async showHint(){
+    if(this.state.hint_hide == true){
+      this.state.hint_hide = false;
+      this.Hint();
+      await wait(3000);
+      this.state.hint_hide = true;
+      this.Hint();
+    }
+  }
+
   randomizeLevels(){
     var level_data = this.state.game;
     var counter = 0;
@@ -301,39 +311,39 @@ class Learn extends Component {
   tutorial(){
     if (this.state.level == 0){
       if(this.state.tries > 2){
-        return "You need to press the button for less than 200 miliseconds";
+        return I18n.t('Tutorial0b');
       }
-      return "Click the button under to write dot";
+      return I18n.t('Tutorial0a');
     }
     if (this.state.level == 1){
       if(this.state.tries > 2){
-        return "You need to hold the button for less than 1 seconds";
+        return I18n.t('Tutorial1b');
       }
-      return "Hold the button a bit for writing dash";
+      return I18n.t('Tutorial1a');
     }
     if (this.state.level == 2){
       if(this.state.tries > 2){
-        return "";
+        return I18n.t('Tutorial2b');
       }
-      return "";
+      return I18n.t('Tutorial2a');
     }
     if (this.state.level == 3){
       if(this.state.tries > 2){
-        return "";
+        return I18n.t('Tutorial3b');
       }
-      return "";
+      return I18n.t('Tutorial3a');
     }
     if (this.state.level == 4){
       if(this.state.tries > 2){
-        return "";
+        return I18n.t('Tutorial4b');
       }
-      return "";
+      return I18n.t('Tutorial4a');
     }
     if (this.state.level == 5){
       if(this.state.tries > 2){
-        return "";
+        return I18n.t('Tutorial5b');
       }
-      return "";
+      return I18n.t('Tutorial5a');
     }
   }
 
@@ -366,7 +376,7 @@ class Learn extends Component {
                     }]}>
                 <Text style={styles.letter}>{this.inputText()}</Text>
                 <TouchableOpacity onPress={() => {
-                  this.Hint(3000);
+                  this.showHint();
                   }}>
                   <Icon name="help" size={36} color="#757575" />
                 </TouchableOpacity>
@@ -382,10 +392,6 @@ class Learn extends Component {
                   <TouchableOpacity activeOpacity={0.2} style={styles.button} 
                       onPressIn = {
                         () => {
-                          if(this.state.first_press == true){
-                            this.setState({first_press:false});
-                            this.Hint(3000);
-                          }
                           this.state.lock[this.state.counter] = true;
                           this.getMorse(this.state.counter);
                         }

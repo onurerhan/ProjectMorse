@@ -28,5 +28,17 @@ export default {
     Notification: "Bildirim",
     SmsNot: "SMS Bildirimleri",
     EmailNot: "Email Bildirimleri",
-    LangChange: "It's going to activate at the next start."
+    LangChange: "It's going to activate at the next start.",
+    Tutorial0a: "Alttaki butona tıklayarak nokta yazabilirsiniz",
+    Tutorial0b: "Butona 200 milisaniyeden daha az basmalısınız",
+    Tutorial1a: "Butona biraz basılı tutarak çizgi yazabilirsiniz",
+    Tutorial1b: "Butonu bir saniyeden az basılı tutmalısınız",
+    Tutorial2a: "",
+    Tutorial2b: "",
+    Tutorial3a: "",
+    Tutorial3b: "",
+    Tutorial4a: "",
+    Tutorial4b: "",
+    Tutorial5a: "",
+    Tutorial5b: "",
 };
